@@ -29,6 +29,24 @@ begin
 	writeln('3. Reservacion en Grupo/Familia');
 end;
 
+procedure pedirDatos(var huesped: datosHuesped);
+begin
+	writeln('Por favor ingrese los siguientes datos:');
+	writeln;
+	write('Nombre: ');
+	readln(huesped.nombre);
+	write('Cedula: ');
+	readln(huesped.cedula);
+	write('Email: ');
+	readln(huesped.email);
+	write('Telefono: ');
+	readln(huesped.telefono);
+	write('Dias de estadia: ');
+	readln(huesped.diasEstadia);
+	write('Tipo de habitacion: ');
+	readln(huesped.tipoHabitacion);
+end; 
+
 BEGIN
 	while True do
 	begin
@@ -47,13 +65,40 @@ BEGIN
 					readln(eleccion);
 					case eleccion of 
 					'1': begin
+						assign(s, 'ReservacionIndividual.txt');
 						opcReservacion:= 'Individual';
+						if FileExists('ReservacionIndividual.txt') then
+						begin
+							append(s);
+						end
+						else
+						begin
+							rewrite(s);
+						end;
 					end;
 					'2': begin
+						assign(a, 'ReservacionPareja.txt');
 						opcReservacion:= 'En Pareja';
+						if FileExists('ReservacionPareja.txt') then
+						begin
+							append(a);
+						end
+						else
+						begin
+							rewrite(a);
+						end;
 					end;
 					'3': begin
+						assign(g, 'ReservacionGrupo/Familia.txt');
 						opcReservacion:= 'Grupo/Familia';
+						if FileExists('ReservacionGrupo/Familia.txt') then
+						begin
+							append(g);
+						end
+						else
+						begin
+							rewrite(g);
+						end;
 					end
 					else
 					begin
