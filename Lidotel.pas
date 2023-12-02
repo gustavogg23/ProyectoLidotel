@@ -1,6 +1,6 @@
 program Lidotel; // Gustavo Gutiérrez y Juan García
 
-uses crt;
+uses crt, sysutils;
 
 type
 	datosHuesped = record
@@ -16,8 +16,36 @@ var
 	huespedes: array of datosHuesped;
 	i, j, numPersonas: integer;
 	opcHabitacion, opcion: char;
-	i, a, g: text;
-	
+	s, a, g: text;
+
+function tipoReservacion: string;
+var
+	opc: char;
+begin
+	repeat
+		writeln('Por favor seleccione el tipo de reservacion que desea realizar');
+		writeln;
+		writeln('1. Reservacion Individual');
+		writeln('2. Reservacion En Pareja');
+		writeln('3. Reservacion en Grupo/Familia');
+		readln(opc);
+		case opc of 
+		'1': begin
+			tipoReservacion:= 'Individual';
+		end;
+		'2': begin
+			tipoReservacion:= 'En Pareja';
+		end;
+		'3': begin
+			tipoReservacion:= 'Grupo/Familia';
+		end
+		else
+		begin
+			writeln('Opcion Invalida');
+		end;
+		end;
+	until (opc = '1') or (opc = '2') or (opc = '3');
+end;
 
 BEGIN
 	while True do
@@ -25,7 +53,7 @@ BEGIN
 		repeat
 			writeln('Bienvenido al Hotel Lidotel Boutique Margarita');
 			writeln;
-			writeln('Por favor selecciona la opcion que desee');
+			writeln('Por favor ingrese la opcion que desee');
 			writeln('1. Nuevo Cliente');
 			writeln('0. Salir');
 			readln(opcion);
