@@ -47,14 +47,18 @@ begin
 	readln(huesped.tipoHabitacion);
 end; 
 
-procedure registrarHuesped;
+procedure registrarHuesped(var archivo: text);
 var
 	i: integer;
 begin
 	if eleccion = '1' then
-		numPersonas:= 1 
+	begin
+		numPersonas:= 1;
+	end
 	else if eleccion = '2' then
-		numPersonas:= 2
+	begin
+		numPersonas:= 2;
+	end
 	else
 	begin
 		write('Ingrese el numero de personas en el grupo/familia: ');
@@ -65,6 +69,13 @@ begin
 	begin
 		writeln('Ingrese los datos de la persona ', i + 1, ': ');
 		pedirDatos(huespedes[i]);
+		writeln(archivo, 'Datos del huesped:');
+		writeln(archivo, 'Nombre: ', huespedes[i].nombre);
+		writeln(archivo, 'Cedula: ', huespedes[i].cedula);
+		writeln(archivo, 'Email: ', huespedes[i].email);
+		writeln(archivo, 'Telefono: ', huespedes[i].telefono);
+		writeln(archivo, 'Dias de estadia: ', huespedes[i].diasEstadia);
+		writeln(archivo, 'Tipo de Habitacion: ', huespedes[i].tipoHabitacion);
 	end;
 end;
 
@@ -91,11 +102,13 @@ BEGIN
 						if FileExists('ReservacionIndividual.txt') then
 						begin
 							append(s);
+							close(s);
 						end
 						else
 						begin
 							rewrite(s);
-							registrarHuesped;
+							registrarHuesped(s);
+							close(s);
 						end;
 					end;
 					'2': begin
@@ -104,11 +117,13 @@ BEGIN
 						if FileExists('ReservacionPareja.txt') then
 						begin
 							append(a);
+							close(a);
 						end
 						else
 						begin
 							rewrite(a);
-							registrarHuesped;
+							registrarHuesped(a);
+							close(a);
 						end;
 					end;
 					'3': begin
@@ -117,11 +132,13 @@ BEGIN
 						if FileExists('ReservacionGrupo/Familia.txt') then
 						begin
 							append(g);
+							close(g);
 						end
 						else
 						begin
 							rewrite(g);
-							registrarHuesped;
+							registrarHuesped(g);
+							close(g);
 						end;
 					end
 					else
