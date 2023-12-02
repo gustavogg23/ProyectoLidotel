@@ -52,8 +52,8 @@ var
 	i: integer;
 begin
 	if eleccion = '1' then
-		numPersona:= 1 
-	else if eleccion '2' then
+		numPersonas:= 1 
+	else if eleccion = '2' then
 		numPersonas:= 2
 	else
 	begin
@@ -95,6 +95,7 @@ BEGIN
 						else
 						begin
 							rewrite(s);
+							registrarHuesped;
 						end;
 					end;
 					'2': begin
@@ -107,6 +108,7 @@ BEGIN
 						else
 						begin
 							rewrite(a);
+							registrarHuesped;
 						end;
 					end;
 					'3': begin
@@ -119,6 +121,7 @@ BEGIN
 						else
 						begin
 							rewrite(g);
+							registrarHuesped;
 						end;
 					end
 					else
