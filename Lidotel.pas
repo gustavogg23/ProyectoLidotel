@@ -33,6 +33,10 @@ BEGIN
 			'1': begin
 			end;
 			'0': begin
+				writeln('Gracias por reservar en el Hotel Lidotel');
+				writeln('Por favo disfrute de su estadia');
+				readln();
+				exit;
 			end
 			else
 			begin
