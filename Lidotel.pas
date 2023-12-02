@@ -15,42 +15,25 @@ type
 var 
 	huespedes: array of datosHuesped;
 	i, j, numPersonas: integer;
-	opcHabitacion, opcion: char;
+	opcReservacion: string;
+	opcHabitacion, opcion, eleccion: char;
 	s, a, g: text;
 
-function tipoReservacion: string;
-var
-	opc: char;
+procedure tipoReservacion;
 begin
-	repeat
-		writeln('Por favor seleccione el tipo de reservacion que desea realizar');
-		writeln;
-		writeln('1. Reservacion Individual');
-		writeln('2. Reservacion En Pareja');
-		writeln('3. Reservacion en Grupo/Familia');
-		readln(opc);
-		case opc of 
-		'1': begin
-			tipoReservacion:= 'Individual';
-		end;
-		'2': begin
-			tipoReservacion:= 'En Pareja';
-		end;
-		'3': begin
-			tipoReservacion:= 'Grupo/Familia';
-		end
-		else
-		begin
-			writeln('Opcion Invalida');
-		end;
-		end;
-	until (opc = '1') or (opc = '2') or (opc = '3');
+	ClrScr;
+	writeln('Por favor seleccione el tipo de reservacion que desea realizar');
+	writeln;
+	writeln('1. Reservacion Individual');
+	writeln('2. Reservacion En Pareja');
+	writeln('3. Reservacion en Grupo/Familia');
 end;
 
 BEGIN
 	while True do
 	begin
 		repeat
+			ClrScr;
 			writeln('Bienvenido al Hotel Lidotel Boutique Margarita');
 			writeln;
 			writeln('Por favor ingrese la opcion que desee');
@@ -59,10 +42,31 @@ BEGIN
 			readln(opcion);
 			case opcion of
 			'1': begin
+				repeat
+					tipoReservacion;
+					readln(eleccion);
+					case eleccion of 
+					'1': begin
+						opcReservacion:= 'Individual';
+					end;
+					'2': begin
+						opcReservacion:= 'En Pareja';
+					end;
+					'3': begin
+						opcReservacion:= 'Grupo/Familia';
+					end
+					else
+					begin
+						writeln('Opcion Invalida');
+						readln();
+					end;
+					end;
+				until (eleccion = '1') or (eleccion = '2') or (eleccion = '3');
 			end;
 			'0': begin
+				ClrScr;
 				writeln('Gracias por reservar en el Hotel Lidotel');
-				writeln('Por favo disfrute de su estadia');
+				writeln('Por favor disfrute de su estadia');
 				readln();
 				exit;
 			end
