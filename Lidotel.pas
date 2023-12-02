@@ -47,6 +47,27 @@ begin
 	readln(huesped.tipoHabitacion);
 end; 
 
+procedure registrarHuesped;
+var
+	i: integer;
+begin
+	if eleccion = '1' then
+		numPersona:= 1 
+	else if eleccion '2' then
+		numPersonas:= 2
+	else
+	begin
+		write('Ingrese el numero de personas en el grupo/familia: ');
+		readln(numPersonas);
+	end;
+	SetLength(huespedes, numPersonas);
+	for i:= 0 to numPersonas - 1 do
+	begin
+		writeln('Ingrese los datos de la persona ', i + 1, ': ');
+		pedirDatos(huespedes[i]);
+	end;
+end;
+
 BEGIN
 	while True do
 	begin
