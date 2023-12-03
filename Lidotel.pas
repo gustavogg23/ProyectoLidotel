@@ -421,6 +421,9 @@ BEGIN
 						opcReservacion:= 'Individual';
 						if FileExists('ReservacionIndividual.txt') then
 						begin
+							writeln('Ya existe una reservación de este tipo');
+							writeln('Presione enter para ver el registro...');
+							readln();
 							ClrScr;
 							reset(s);
 							mostrarRegistro(s);
@@ -435,6 +438,10 @@ BEGIN
 							registrarHuesped(s, false);
 							close(s);
 							Clrscr;
+							writeln('Su reservación se ha guardado');
+							writeln('Presione enter para continuar...');
+							readln();
+							ClrScr;
 							reset(s);
 							mostrarRegistro(s);
 							close(s);
@@ -446,6 +453,9 @@ BEGIN
 						opcReservacion:= 'En Pareja';
 						if FileExists('ReservacionPareja.txt') then
 						begin
+							writeln('Ya existe una reservación de este tipo');
+							writeln('Presione enter para ver el registro...');
+							readln();
 							ClrScr;
 							reset(a);
 							mostrarRegistro(a);
@@ -460,6 +470,10 @@ BEGIN
 							registrarHuesped(a, false);
 							close(a);
 							ClrScr;
+							writeln('Su reservación se ha guardado');
+							writeln('Presione enter para continuar...');
+							readln();
+							ClrScr;
 							reset(a);
 							mostrarRegistro(a);
 							close(a);
@@ -471,6 +485,9 @@ BEGIN
 						opcReservacion:= 'Grupo/Familia';
 						if FileExists('ReservacionGrupo_Familia.txt') then
 						begin
+							writeln('Ya existe una reservación de este tipo');
+							writeln('Presione enter para ver el registro...');
+							readln();
 							ClrScr;
 							reset(g);
 							mostrarRegistro(g);
@@ -484,6 +501,10 @@ BEGIN
 							rewrite(g);
 							registrarHuesped(g, true);
 							close(g);
+							ClrScr;
+							writeln('Su reservación se ha guardado');
+							writeln('Presione enter para continuar...');
+							readln();
 							ClrScr;
 							reset(g);
 							mostrarRegistro(g);
