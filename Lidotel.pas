@@ -5,6 +5,7 @@ uses crt, sysutils;
 type
 	datosHuesped = record
 		nombre: string[30];
+		edad: integer;
 		cedula: string[11];
 		email: string[30];
 		telefono: string[12];
@@ -15,7 +16,7 @@ type
 var 
 	huespedes: array of datosHuesped;
 	i, j, numPersonas: integer;
-	opcReservacion: string;
+	opcReservacion, habitacion: string;
 	opcHabitacion, opcion, eleccion: char;
 	s, a, g: text;
 
@@ -27,6 +28,69 @@ begin
 	writeln('1. Reservacion Individual');
 	writeln('2. Reservacion En Pareja');
 	writeln('3. Reservacion en Grupo/Familia');
+end;
+
+procedure elegirHabitacion;
+begin
+	repeat
+		ClrScr;
+		writeln('Elija la habitacion que desea reservar:');
+		writeln('1. FAMILY ROOM - 200$ por noche');
+		writeln('Calida y confortable habitacion decorada con un estilo vanguardista, 100% libre de humo, ');
+		writeln('cama Lidotel Royal King, con reloj despertador, TV 32'' HD Plasma con cable, ');
+		writeln('baño con ducha, cafetera electrica, nevera ejecutiva, caja electronica de seguridad y ');
+		writeln('secador de cabello, armario adicional amplio, una habitacion separada con 2 camas full, banyo con ducha.');
+		writeln('-Incluye: Desayuno Buffet en el Restaurant Le Nouveau, acceso inalambrico a Internet (WIFI), ');
+		writeln('Business Center, uso de nuestra exclusiva piscina, acceso a nuestro gimnasio, sillas y ');
+		writeln('toldos en la playa, kit de vanidades y ninyos de 0 a 2 anyos sin recargos.');
+		writeln;
+		writeln('2. SENCILLA - 60$ por noche');
+		writeln('Amplia y confortable habitacion decorada con un estilo vanguardista, cama Lidotel ');
+		writeln('Royal King con sabanas de algodon egipcio, soporte para iPod con reloj despertador, ');
+		writeln('TV 32'' HD Plasma con cable, banyo con ducha, cafetera electrica, nevera ejecutiva, caja ');
+		writeln('electronica de seguridad y secador de cabello.');
+		writeln('-Incluye: Desayuno Buffet en Restaurant Le Nouveau, acceso inalambrico a Internet (WIFI), ');
+		writeln('acceso a las instalaciones del Business Center, uso de nuestra exclusiva piscina, ');
+		writeln('acceso a nuestro moderno gimnasio y Kit de vanidades. Ninyos de 0 a 2 anyos sin recargos.');
+		writeln;
+		writeln('3. DOBLE - 120$ por noche');
+		writeln('Amplia y confortable habitacion decorada con un estilo vanguardista, Dos Camas ');
+		writeln('Lidotel Full con sabanas de algodon egipcio, soporte para iPod con reloj despertador, ');
+		writeln('TV 32'' HD Plasma con cable, banyo con ducha, cafetera electrica, nevera ejecutiva, caja ');
+		writeln('electronica de seguridad secador de cabello.');
+		writeln('-Incluye: Desayuno Buffet en el Restaurant Le Nouveau, acceso inalambrico a Internet (WIFI), ');
+		writeln('acceso a las instalaciones del Business Center, uso de nuestra exclusiva piscina, ');
+		writeln('acceso a nuestro moderno gimnasio y Kit de vanidades. Ninyos de 0 a 2 anyos sin recargos.');
+		writeln;
+		writeln('4. SUITE - 300$ por noche');
+		writeln('Calida y confortable habitacióon decorada con un estilo vanguardista, 100% libre de ');
+		writeln('humo, Cama Lidotel Royal King, con reloj despertador, TV 32'' HD Plasma con cable, 2 ');
+		writeln('banyos con ducha, cafetera electrica, nevera ejecutiva, caja electronica de seguridad y ');
+		writeln('secador de cabello, armario adicional amplio y area separada con 2 sofa-cama individuales.');
+		writeln('-Incluye: Desayuno Buffet en el Restaurant Le Nouveau, acceso inalambrico a Internet (WIFI), ');
+		writeln('Business Center, uso de nuestra exclusiva piscina, acceso a nuestro gimnasio, sillas y ');
+		writeln('toldos en la playa, kit de vanidades y ninyos de 0 a 2 anyos sin recargos.');
+		readln(opcHabitacion);
+		case opcHabitacion of 
+		'1': begin
+			habitacion:= 'Family Room';
+		end;
+		'2': begin
+			habitacion:= 'Sencilla';
+		end;
+		'3': begin
+			habitacion:= 'Doble';
+		end;
+		'4': begin
+			habitacion:= 'Suite';
+		end
+		else
+		begin
+			writeln('Opcion invalida');
+			readln();
+		end;
+		end;
+	until (opcHabitacion = '1') or (opcHabitacion = '2') or (opcHabitacion = '3') or (opcHabitacion = '4');
 end;
 
 procedure pedirDatos(var huesped: datosHuesped);
@@ -44,7 +108,8 @@ begin
 	write('Dias de estadia: ');
 	readln(huesped.diasEstadia);
 	write('Tipo de habitacion: ');
-	readln(huesped.tipoHabitacion);
+	elegirHabitacion;
+	huesped.tipoHabitacion:= habitacion;
 end; 
 
 procedure registrarHuesped(var archivo: text);
@@ -69,7 +134,6 @@ begin
 	begin
 		writeln('Ingrese los datos de la persona ', i + 1, ': ');
 		pedirDatos(huespedes[i]);
-		writeln(archivo, 'Datos del huesped:');
 		writeln(archivo, 'Nombre: ', huespedes[i].nombre);
 		writeln(archivo, 'Cedula: ', huespedes[i].cedula);
 		writeln(archivo, 'Email: ', huespedes[i].email);
