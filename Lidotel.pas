@@ -21,7 +21,7 @@ var
 	huespedes: array of datosHuesped;
 	ninyos: array of datosNinyo;
 	i, j, numAdultos, numNinyos: integer;
-	opcReservacion, habitacion, opcionEntrada, adultos, ninos, numDias: string;
+	opcReservacion, habitacion, opcionEntrada, adultos, ninos, numDias, edadNinos: string;
 	opcHabitacion, opcion, eleccion: char;
 	s, a, g: text;
 
@@ -132,6 +132,23 @@ begin
 	end;
 end;
 
+function validarCorreo(var correo: string): boolean;
+var
+	contEmail: integer;
+begin
+	validarCorreo:= true;
+	for contEmail:= 1 to length(correo) do
+	begin
+		if not (correo[contEmail] in ['A'..'Z', 'a'..'z', '0'..'9', '@', '.', '_']) then
+		begin
+			writeln('Entrada Invalida');
+			validarCorreo:= false;
+			readln();
+			break;
+		end;
+	end;
+end;
+
 function numeroValido(var num: integer; var ent: string): boolean;
 var
 	error: integer;
@@ -160,8 +177,10 @@ begin
 		write('Cedula: ');
 		readln(huesped.cedula);
 	until validarCedula(huesped.cedula);
-	write('Email: ');
-	readln(huesped.email);
+	repeat
+		write('Email: ');
+		readln(huesped.email);
+	until validarCorreo(huesped.email);
 	write('Telefono: ');
 	readln(huesped.telefono);
 	repeat
@@ -180,8 +199,10 @@ begin
 		write('Nombre: ');
 		readln(ninio.nombre);
 	until validarNombre(ninio.nombre);
-	write('Edad: ');
-	readln(ninio.edad);
+	repeat
+		write('Edad: ');
+		readln(edadNinos);
+	until numeroValido(ninio.edad, edadNinos);
 end;
 
 procedure siNinyos;
