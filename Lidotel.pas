@@ -149,6 +149,23 @@ begin
 	end;
 end;
 
+function validarTelefono(var numTel: string): boolean;
+var
+	contTel: integer;
+begin
+	validarTelefono:= true;
+	for contTel:= 1 to length(numTel) do
+	begin
+		if not (numTel[contTel] in ['0'..'9', '-']) then
+		begin
+			writeln('Entrada invalida');
+			validarTelefono:= false;
+			readln();
+			break;
+		end;
+	end;
+end;
+
 function numeroValido(var num: integer; var ent: string): boolean;
 var
 	error: integer;
@@ -181,8 +198,10 @@ begin
 		write('Email: ');
 		readln(huesped.email);
 	until validarCorreo(huesped.email);
-	write('Telefono: ');
-	readln(huesped.telefono);
+	repeat
+		write('Telefono: ');
+		readln(huesped.telefono);
+	until validarTelefono(huesped.telefono);
 	repeat
 		write('Dias de estadia: ');
 		readln(numDias);
