@@ -2,6 +2,12 @@ program Lidotel; // Gustavo Gutiérrez y Juan García
 
 uses crt, sysutils;
 
+const
+	FAMROOM = 200;
+	SEN = 60;
+	DOB = 120;
+	SUT = 300;
+
 type
 	datosHuesped = record
 		nombre: string[30];
@@ -10,17 +16,20 @@ type
 		telefono: string[12];
 		diasEstadia: integer;
 		tipoHabitacion: string[15]
+		precioNoche: real;
 	end;
 	
 	datosNinyo = record
 		nombre: string[30];
 		edad: integer;
+		precioNoche: real;
 	end;
 	
 var 
 	huespedes: array of datosHuesped;
 	ninyos: array of datosNinyo;
 	i, j, numAdultos, numNinyos: integer;
+	precioTotal: real;
 	opcReservacion, habitacion, opcionEntrada, adultos, ninos, numDias, edadNinos: string;
 	opcHabitacion, opcion, eleccion: char;
 	s, a, g: text;
@@ -96,6 +105,57 @@ begin
 		end;
 		end;
 	until (opcHabitacion = '1') or (opcHabitacion = '2') or (opcHabitacion = '3') or (opcHabitacion = '4');
+end;
+
+procedure elegirHabitacionGrupo;
+begin
+	repeat
+		ClrScr;
+		writeln('Elija la habitacion que desea reservar:');
+		writeln('1. FAMILY ROOM - 200$ por noche');
+		writeln('Calida y confortable habitacion decorada con un estilo vanguardista, 100% libre de humo, ');
+		writeln('cama Lidotel Royal King, con reloj despertador, TV 32'' HD Plasma con cable, ');
+		writeln('banyo con ducha, cafetera electrica, nevera ejecutiva, caja electronica de seguridad y ');
+		writeln('secador de cabello, armario adicional amplio, una habitacion separada con 2 camas full, banyo con ducha.');
+		writeln('-Incluye: Desayuno Buffet en el Restaurant Le Nouveau, acceso inalambrico a Internet (WIFI), ');
+		writeln('Business Center, uso de nuestra exclusiva piscina, acceso a nuestro gimnasio, sillas y ');
+		writeln('toldos en la playa, kit de vanidades y ninyos de 0 a 2 anyos sin recargos.');
+		writeln;
+		writeln('2. DOBLE - 120$ por noche');
+		writeln('Amplia y confortable habitacion decorada con un estilo vanguardista, Dos Camas ');
+		writeln('Lidotel Full con sabanas de algodon egipcio, soporte para iPod con reloj despertador, ');
+		writeln('TV 32'' HD Plasma con cable, banyo con ducha, cafetera electrica, nevera ejecutiva, caja ');
+		writeln('electronica de seguridad secador de cabello.');
+		writeln('-Incluye: Desayuno Buffet en el Restaurant Le Nouveau, acceso inalambrico a Internet (WIFI), ');
+		writeln('acceso a las instalaciones del Business Center, uso de nuestra exclusiva piscina, ');
+		writeln('acceso a nuestro moderno gimnasio y Kit de vanidades. Ninyos de 0 a 2 anyos sin recargos.');
+		writeln;
+		writeln('3. SUITE - 300$ por noche');
+		writeln('Calida y confortable habitacióon decorada con un estilo vanguardista, 100% libre de ');
+		writeln('humo, Cama Lidotel Royal King, con reloj despertador, TV 32'' HD Plasma con cable, 2 ');
+		writeln('banyos con ducha, cafetera electrica, nevera ejecutiva, caja electronica de seguridad y ');
+		writeln('secador de cabello, armario adicional amplio y area separada con 2 sofa-cama individuales.');
+		writeln('-Incluye: Desayuno Buffet en el Restaurant Le Nouveau, acceso inalambrico a Internet (WIFI), ');
+		writeln('Business Center, uso de nuestra exclusiva piscina, acceso a nuestro gimnasio, sillas y ');
+		writeln('toldos en la playa, kit de vanidades y ninyos de 0 a 2 anyos sin recargos.');
+		readln(opcHabitacion);
+		case opcHabitacion of 
+		'1': begin
+			habitacion:= 'Family Room';
+		end;
+		'2': begin
+			habitacion:= 'Doble';
+		end;
+		'3': begin
+			habitacion:= 'Suite';
+		end
+		else
+		begin
+			writeln('Opcion invalida');
+			readln();
+		end;
+		end;
+	until (opcHabitacion = '1') or (opcHabitacion = '2') or (opcHabitacion = '3');
 end;
 
 function validarNombre(var nom: string): boolean;
@@ -183,7 +243,7 @@ begin
 	end;
 end;
 
-procedure pedirDatos(var huesped: datosHuesped);
+procedure pedirDatos(var huesped: datosHuesped; esGrupo: boolean);
 begin
 	writeln;
 	repeat
@@ -207,8 +267,6 @@ begin
 		readln(numDias);
 	until numeroValido(huesped.diasEstadia, numDias);
 	write('Tipo de habitacion: ');
-	elegirHabitacion;
-	huesped.tipoHabitacion:= habitacion;
 end; 
 
 procedure pedirDatosNinyos(var ninio: datosNinyo);
@@ -244,7 +302,7 @@ begin
 	until (opcionEntrada = 'S') or (opcionEntrada = 'N') or (opcionEntrada = 'SI') or (opcionEntrada = 'NO');
 end;
 
-procedure registrarHuesped(var archivo: text);
+procedure registrarHuesped(var archivo: text; esGrupo: boolean);
 var
 	i: integer;
 begin
@@ -272,15 +330,26 @@ begin
 	begin
 		ClrScr;
 		writeln('Ingrese los datos del adulto ', i + 1, ': ');
-		pedirDatos(huespedes[i]);
+		pedirDatos(huespedes[i], esGrupo);
+	end;
+	
+	if esGrupo then
+		elegirHabitacionGrupo
+	else
+		elegirHabitacion;
+	
+	for i:= 0 to numAdultos - 1 do
+	begin
 		writeln(archivo, 'Nombre: ', huespedes[i].nombre);
 		writeln(archivo, 'Cedula: ', huespedes[i].cedula);
 		writeln(archivo, 'Email: ', huespedes[i].email);
 		writeln(archivo, 'Telefono: ', huespedes[i].telefono);
 		writeln(archivo, 'Dias de estadia: ', huespedes[i].diasEstadia);
+		huespedes[i].tipoHabitacion:= habitacion;
 		writeln(archivo, 'Tipo de Habitacion: ', huespedes[i].tipoHabitacion);
 		writeln(archivo);
 	end;
+	
 	if (opcionEntrada = 'S') or (opcionEntrada = 'SI') then
 	begin
 		repeat
@@ -295,7 +364,9 @@ begin
 			writeln('Ingrese los datos del ninyo ', i + 1, ': ');
 			pedirDatosNinyos(ninyos[i]);
 			writeln(archivo, 'Nombre: ', ninyos[i].nombre);
-			writeln(archivo, 'Edad: ', ninyos[i].edad);
+			writeln(archivo, 'Edad: ', ninyos[i].edad, ' anyos');
+			huespedes[i].tipoHabitacion:= habitacion;
+			writeln(archivo, 'Tipo de Habitacion: ', huespedes[i].tipoHabitacion);
 			writeln(archivo);
 		end;
 	end;
@@ -329,7 +400,7 @@ BEGIN
 						else
 						begin
 							rewrite(s);
-							registrarHuesped(s);
+							registrarHuesped(s, false);
 							close(s);
 						end;
 					end;
@@ -344,7 +415,7 @@ BEGIN
 						else
 						begin
 							rewrite(a);
-							registrarHuesped(a);
+							registrarHuesped(a, false);
 							close(a);
 						end;
 					end;
@@ -359,7 +430,7 @@ BEGIN
 						else
 						begin
 							rewrite(g);
-							registrarHuesped(g);
+							registrarHuesped(g, true);
 							close(g);
 						end;
 					end
