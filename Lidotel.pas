@@ -29,7 +29,7 @@ type
 var 
 	huespedes: array of datosHuesped;
 	ninyos: array of datosNinyo;
-	i, j, numAdultos, numNinyos: integer;
+	i, j, numAdultos, numNinyos, clienteActual: integer;
 	precioTotal, noche: real;
 	opcReservacion, habitacion, opcionEntrada, adultos, ninos, numDias, edadNinos: string;
 	opcHabitacion, opcion, eleccion: char;
@@ -397,6 +397,43 @@ begin
 		readln(arch, linea);
 		writeln(linea);
 	end;
+end;
+
+procedure mostrarCliente(var arch: text; indiceCliente: integer);
+var
+	linea: string;
+	i: integer;
+begin
+	reset(arch);
+	i:= 0;
+	while not eof(arch) do
+	begin
+		readln(arch, linea);
+		if (i = indiceCliente) then
+		begin
+			writeln(linea);
+			break;
+		end;
+		i:= i + 1;
+	end;
+	close(arch);
+end;
+
+procedure mostrarClienteAnterior(var arch: text);
+begin
+	if clienteActual > 0 then
+	begin
+		clienteActual:= clienteActual - 1;
+		mostrarCliente(arch, clienteActual);
+	end
+	else
+		writeln('No hay cliente anterior');
+end;
+
+procedure mostrarSiguienteCliente(var arch: text);
+begin
+	clienteActual:= clienteActual + 1;
+	mostrarCliente(arch, clienteActual);
 end;
 
 BEGIN
