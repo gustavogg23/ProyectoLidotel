@@ -436,6 +436,34 @@ begin
 	mostrarCliente(arch, clienteActual);
 end;
 
+procedure buscarHuesped(var arch: text; nombreHuesped: string);
+var
+	linea: string;
+	encontrado: boolean;
+begin
+	reset(arch);
+	encontrado:= false;
+	while not eof(arch) do
+	begin
+		readln(arch, linea);
+		if Pos(nombreHuesped, linea) > 0 then
+		begin
+			writeln(linea);
+			encontrado:= true;
+		end;
+	end;
+	close(arch);
+	if not encontrado then
+		writeln('Huesped no encontrado');
+end;
+
+procedure agregarHuesped(var arch: text; esGrupo: boolean);
+begin
+	append(arch);
+	registrarHuesped(arch, esGrupo);
+	close(arch);
+end;
+
 BEGIN
 	while True do
 	begin
@@ -466,8 +494,6 @@ BEGIN
 							mostrarRegistro(s);
 							close(s);
 							readln();
-							append(s);
-							close(s);
 						end
 						else
 						begin
@@ -498,8 +524,6 @@ BEGIN
 							mostrarRegistro(a);
 							close(a);
 							readln();
-							append(a);
-							close(a);
 						end
 						else
 						begin
@@ -530,8 +554,6 @@ BEGIN
 							mostrarRegistro(g);
 							close(g);
 							readln();
-							append(g);
-							close(g);
 						end
 						else
 						begin
