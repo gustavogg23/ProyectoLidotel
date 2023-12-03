@@ -436,11 +436,15 @@ begin
 	mostrarCliente(arch, clienteActual);
 end;
 
-procedure buscarHuesped(var arch: text; nombreHuesped: string);
+procedure buscarHuesped(var arch: text);
 var
-	linea: string;
+	linea, nombreHuesped: string;
 	encontrado: boolean;
 begin
+	repeat
+		write('Ingrese el nombre del huesped que desea buscar: ');
+		readln(nombreHuesped);
+	until validarNombre(nombreHuesped);
 	reset(arch);
 	encontrado:= false;
 	while not eof(arch) do
