@@ -115,6 +115,23 @@ begin
 	end;
 end;
 
+function validarCedula(var id: string): boolean;
+var 
+	contCedula: integer;
+begin
+	validarCedula:= true;
+	for contCedula:= 1 to length(id) do
+	begin
+		if not (id[contCedula] in ['0'..'9', '.']) then
+		begin
+			writeln('Entrada invalida');
+			validarCedula:= false;
+			readln();
+			break;
+		end;
+	end;
+end;
+
 function numeroValido(var num: integer; var ent: string): boolean;
 var
 	error: integer;
@@ -139,8 +156,10 @@ begin
 		write('Nombre: ');
 		readln(huesped.nombre);
 	until validarNombre(huesped.nombre);
-	write('Cedula: ');
-	readln(huesped.cedula);
+	repeat
+		write('Cedula: ');
+		readln(huesped.cedula);
+	until validarCedula(huesped.cedula);
 	write('Email: ');
 	readln(huesped.email);
 	write('Telefono: ');
