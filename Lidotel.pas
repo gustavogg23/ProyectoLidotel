@@ -21,7 +21,7 @@ var
 	huespedes: array of datosHuesped;
 	ninyos: array of datosNinyo;
 	i, j, numAdultos, numNinyos: integer;
-	opcReservacion, habitacion, opcionEntrada, adultos, ninos: string;
+	opcReservacion, habitacion, opcionEntrada, adultos, ninos, numDias: string;
 	opcHabitacion, opcion, eleccion: char;
 	s, a, g: text;
 
@@ -43,7 +43,7 @@ begin
 		writeln('1. FAMILY ROOM - 200$ por noche');
 		writeln('Calida y confortable habitacion decorada con un estilo vanguardista, 100% libre de humo, ');
 		writeln('cama Lidotel Royal King, con reloj despertador, TV 32'' HD Plasma con cable, ');
-		writeln('baño con ducha, cafetera electrica, nevera ejecutiva, caja electronica de seguridad y ');
+		writeln('banyo con ducha, cafetera electrica, nevera ejecutiva, caja electronica de seguridad y ');
 		writeln('secador de cabello, armario adicional amplio, una habitacion separada con 2 camas full, banyo con ducha.');
 		writeln('-Incluye: Desayuno Buffet en el Restaurant Le Nouveau, acceso inalambrico a Internet (WIFI), ');
 		writeln('Business Center, uso de nuestra exclusiva piscina, acceso a nuestro gimnasio, sillas y ');
@@ -98,6 +98,23 @@ begin
 	until (opcHabitacion = '1') or (opcHabitacion = '2') or (opcHabitacion = '3') or (opcHabitacion = '4');
 end;
 
+function validarNombre(var nom: string): boolean;
+var
+	contNom: integer;
+begin
+	validarNombre:= true;
+	for contNom:= 1 to length(nom) do
+	begin
+		if not (nom[contNom] in ['A'..'Z', 'a'..'z', ' ']) then
+		begin
+			writeln('Entrada Invalida');
+			validarNombre:= false;
+			readln();
+			break;
+		end;
+	end;
+end;
+
 function numeroValido(var num: integer; var ent: string): boolean;
 var
 	error: integer;
@@ -107,6 +124,7 @@ begin
 	begin
 		writeln('Entrada Invalida');
 		numeroValido:= false;
+		readln();
 	end
 	else
 	begin
@@ -116,18 +134,21 @@ end;
 
 procedure pedirDatos(var huesped: datosHuesped);
 begin
-	writeln('Por favor ingrese los siguientes datos:');
 	writeln;
-	write('Nombre: ');
-	readln(huesped.nombre);
+	repeat
+		write('Nombre: ');
+		readln(huesped.nombre);
+	until validarNombre(huesped.nombre);
 	write('Cedula: ');
 	readln(huesped.cedula);
 	write('Email: ');
 	readln(huesped.email);
 	write('Telefono: ');
 	readln(huesped.telefono);
-	write('Dias de estadia: ');
-	readln(huesped.diasEstadia);
+	repeat
+		write('Dias de estadia: ');
+		readln(numDias);
+	until numeroValido(huesped.diasEstadia, numDias);
 	write('Tipo de habitacion: ');
 	elegirHabitacion;
 	huesped.tipoHabitacion:= habitacion;
@@ -135,10 +156,11 @@ end;
 
 procedure pedirDatosNinyos(var ninio: datosNinyo);
 begin
-	writeln('Por favor ingrese los datos del ninyo:');
 	writeln;
-	write('Nombre: ');
-	readln(ninio.nombre);
+	repeat
+		write('Nombre: ');
+		readln(ninio.nombre);
+	until validarNombre(ninio.nombre);
 	write('Edad: ');
 	readln(ninio.edad);
 end;
@@ -189,6 +211,7 @@ begin
 	SetLength(huespedes, numAdultos);
 	for i:= 0 to numAdultos - 1 do
 	begin
+		ClrScr;
 		writeln('Ingrese los datos del adulto ', i + 1, ': ');
 		pedirDatos(huespedes[i]);
 		writeln(archivo, 'Nombre: ', huespedes[i].nombre);
@@ -197,6 +220,7 @@ begin
 		writeln(archivo, 'Telefono: ', huespedes[i].telefono);
 		writeln(archivo, 'Dias de estadia: ', huespedes[i].diasEstadia);
 		writeln(archivo, 'Tipo de Habitacion: ', huespedes[i].tipoHabitacion);
+		writeln(archivo);
 	end;
 	if (opcionEntrada = 'S') or (opcionEntrada = 'SI') then
 	begin
@@ -208,10 +232,12 @@ begin
 		SetLength(ninyos, numNinyos);
 		for i:= 0 to numNinyos - 1 do
 		begin
+			ClrScr;
 			writeln('Ingrese los datos del ninyo ', i + 1, ': ');
 			pedirDatosNinyos(ninyos[i]);
 			writeln(archivo, 'Nombre: ', ninyos[i].nombre);
 			writeln(archivo, 'Edad: ', ninyos[i].edad);
+			writeln(archivo);
 		end;
 	end;
 end;
@@ -264,9 +290,9 @@ BEGIN
 						end;
 					end;
 					'3': begin
-						assign(g, 'ReservacionGrupo/Familia.txt');
+						assign(g, 'ReservacionGrupo_Familia.txt');
 						opcReservacion:= 'Grupo/Familia';
-						if FileExists('ReservacionGrupo/Familia.txt') then
+						if FileExists('ReservacionGrupo_Familia.txt') then
 						begin
 							append(g);
 							close(g);
