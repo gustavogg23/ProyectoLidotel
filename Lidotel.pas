@@ -15,13 +15,14 @@ type
 		email: string[30];
 		telefono: string[12];
 		diasEstadia: integer;
-		tipoHabitacion: string[15]
+		tipoHabitacion: string[15];
 		precioNoche: real;
 	end;
 	
 	datosNinyo = record
 		nombre: string[30];
 		edad: integer;
+		tipoHabitacion: string[15];
 		precioNoche: real;
 	end;
 	
@@ -29,7 +30,7 @@ var
 	huespedes: array of datosHuesped;
 	ninyos: array of datosNinyo;
 	i, j, numAdultos, numNinyos: integer;
-	precioTotal: real;
+	precioTotal, noche: real;
 	opcReservacion, habitacion, opcionEntrada, adultos, ninos, numDias, edadNinos: string;
 	opcHabitacion, opcion, eleccion: char;
 	s, a, g: text;
@@ -88,15 +89,19 @@ begin
 		case opcHabitacion of 
 		'1': begin
 			habitacion:= 'Family Room';
+			noche:= FAMROOM;
 		end;
 		'2': begin
 			habitacion:= 'Sencilla';
+			noche:= SEN;
 		end;
 		'3': begin
 			habitacion:= 'Doble';
+			noche:= SEN;
 		end;
 		'4': begin
 			habitacion:= 'Suite';
+			noche:= SUT;
 		end
 		else
 		begin
@@ -142,12 +147,15 @@ begin
 		case opcHabitacion of 
 		'1': begin
 			habitacion:= 'Family Room';
+			noche:= FAMROOM;
 		end;
 		'2': begin
 			habitacion:= 'Doble';
+			noche:= DOB;
 		end;
 		'3': begin
 			habitacion:= 'Suite';
+			noche:= SUT;
 		end
 		else
 		begin
@@ -338,6 +346,7 @@ begin
 	else
 		elegirHabitacion;
 	
+	precioTotal:= 0;
 	for i:= 0 to numAdultos - 1 do
 	begin
 		writeln(archivo, 'Nombre: ', huespedes[i].nombre);
@@ -347,8 +356,12 @@ begin
 		writeln(archivo, 'Dias de estadia: ', huespedes[i].diasEstadia);
 		huespedes[i].tipoHabitacion:= habitacion;
 		writeln(archivo, 'Tipo de Habitacion: ', huespedes[i].tipoHabitacion);
+		huespedes[i].precioNoche:= noche;
+		writeln(archivo, 'Precio por noche: ', huespedes[i].precioNoche:0:2, '$');
 		writeln(archivo);
 	end;
+	
+	precioTotal:= noche * huespedes[0].diasEstadia;
 	
 	if (opcionEntrada = 'S') or (opcionEntrada = 'SI') then
 	begin
@@ -365,11 +378,14 @@ begin
 			pedirDatosNinyos(ninyos[i]);
 			writeln(archivo, 'Nombre: ', ninyos[i].nombre);
 			writeln(archivo, 'Edad: ', ninyos[i].edad, ' anyos');
-			huespedes[i].tipoHabitacion:= habitacion;
-			writeln(archivo, 'Tipo de Habitacion: ', huespedes[i].tipoHabitacion);
+			ninyos[i].tipoHabitacion:= habitacion;
+			writeln(archivo, 'Tipo de Habitacion: ', ninyos[i].tipoHabitacion);
+			ninyos[i].precioNoche:= noche;
+			writeln(archivo, 'Precio por noche: ', ninyos[i].precioNoche:0:2, '$');
 			writeln(archivo);
 		end;
 	end;
+	writeln(archivo, 'Total a pagar: ', precioTotal:0:2, '$');
 end;
 
 BEGIN
