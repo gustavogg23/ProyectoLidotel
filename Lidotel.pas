@@ -5,7 +5,6 @@ uses crt, sysutils;
 type
 	datosHuesped = record
 		nombre: string[30];
-		edad: integer;
 		cedula: string[11];
 		email: string[30];
 		telefono: string[12];
@@ -13,10 +12,16 @@ type
 		tipoHabitacion: string[15]
 	end;
 	
+	datosNinyo = record
+		nombre: string[30];
+		edad: integer;
+	end;
+	
 var 
 	huespedes: array of datosHuesped;
-	i, j, numPersonas: integer;
-	opcReservacion, habitacion: string;
+	ninyos: array of datosNinyo;
+	i, j, numAdultos, numNinyos: integer;
+	opcReservacion, habitacion, opcionEntrada, adultos, ninos: string;
 	opcHabitacion, opcion, eleccion: char;
 	s, a, g: text;
 
@@ -93,6 +98,22 @@ begin
 	until (opcHabitacion = '1') or (opcHabitacion = '2') or (opcHabitacion = '3') or (opcHabitacion = '4');
 end;
 
+function numeroValido(var num: integer; var ent: string): boolean;
+var
+	error: integer;
+begin
+	Val(ent, num, error);
+	if (error <> 0) or (num < 0) then
+	begin
+		writeln('Entrada Invalida');
+		numeroValido:= false;
+	end
+	else
+	begin
+		numeroValido:= true;
+	end;
+end;
+
 procedure pedirDatos(var huesped: datosHuesped);
 begin
 	writeln('Por favor ingrese los siguientes datos:');
@@ -112,27 +133,63 @@ begin
 	huesped.tipoHabitacion:= habitacion;
 end; 
 
+procedure pedirDatosNinyos(var ninio: datosNinyo);
+begin
+	writeln('Por favor ingrese los datos del ninyo:');
+	writeln;
+	write('Nombre: ');
+	readln(ninio.nombre);
+	write('Edad: ');
+	readln(ninio.edad);
+end;
+
+procedure siNinyos;
+var
+	i: integer;
+begin
+	repeat
+		writeln('Hay ninyos en su grupo/familia? (s/n)');
+		readln(opcionEntrada);
+		for i:= 1 to length(opcionEntrada) do
+		begin
+			opcionEntrada[i]:= UpCase(opcionEntrada[i]); // Convierte la entrada en mayúsculas
+		end;
+		if (opcionEntrada <> 'S') and (opcionEntrada <> 'N') and (opcionEntrada <> 'SI') and (opcionEntrada <> 'NO') then // Se verifica si la entrada es válida
+		begin
+			writeln('Opcion invalida.');
+			readln();
+			Clrscr;
+		end;
+	until (opcionEntrada = 'S') or (opcionEntrada = 'N') or (opcionEntrada = 'SI') or (opcionEntrada = 'NO');
+end;
+
 procedure registrarHuesped(var archivo: text);
 var
 	i: integer;
 begin
 	if eleccion = '1' then
 	begin
-		numPersonas:= 1;
+		numAdultos:= 1;
+		numNinyos:= 0;
 	end
 	else if eleccion = '2' then
 	begin
-		numPersonas:= 2;
+		numAdultos:= 2;
+		numNinyos:= 0;
 	end
 	else
 	begin
-		write('Ingrese el numero de personas en el grupo/familia: ');
-		readln(numPersonas);
+		repeat
+			ClrScr;
+			write('Ingrese el numero de adultos en el grupo/familia: ');
+			readln(adultos);
+		until numeroValido(numAdultos, adultos);
+		siNinyos;
 	end;
-	SetLength(huespedes, numPersonas);
-	for i:= 0 to numPersonas - 1 do
+	SetLength(huespedes, numAdultos);
+	for i:= 0 to numAdultos - 1 do
 	begin
-		writeln('Ingrese los datos de la persona ', i + 1, ': ');
+		writeln('Ingrese los datos del adulto ', i + 1, ': ');
 		pedirDatos(huespedes[i]);
 		writeln(archivo, 'Nombre: ', huespedes[i].nombre);
 		writeln(archivo, 'Cedula: ', huespedes[i].cedula);
@@ -140,6 +197,22 @@ begin
 		writeln(archivo, 'Telefono: ', huespedes[i].telefono);
 		writeln(archivo, 'Dias de estadia: ', huespedes[i].diasEstadia);
 		writeln(archivo, 'Tipo de Habitacion: ', huespedes[i].tipoHabitacion);
+	end;
+	if (opcionEntrada = 'S') or (opcionEntrada = 'SI') then
+	begin
+		repeat
+			ClrScr;
+			write('Ingrese el numero de ninyos: ');
+			readln(ninos);
+		until numeroValido(numNinyos, ninos);
+		SetLength(ninyos, numNinyos);
+		for i:= 0 to numNinyos - 1 do
+		begin
+			writeln('Ingrese los datos del ninyo ', i + 1, ': ');
+			pedirDatosNinyos(ninyos[i]);
+			writeln(archivo, 'Nombre: ', ninyos[i].nombre);
+			writeln(archivo, 'Edad: ', ninyos[i].edad);
+		end;
 	end;
 end;
 
