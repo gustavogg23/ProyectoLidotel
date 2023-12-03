@@ -388,6 +388,17 @@ begin
 	writeln(archivo, 'Total a pagar: ', precioTotal:0:2, '$');
 end;
 
+procedure mostrarRegistro(var arch: text);
+var
+	linea: string;
+begin
+	while not eof(arch) do
+	begin
+		readln(arch, linea);
+		writeln(linea);
+	end;
+end;
+
 BEGIN
 	while True do
 	begin
@@ -410,6 +421,11 @@ BEGIN
 						opcReservacion:= 'Individual';
 						if FileExists('ReservacionIndividual.txt') then
 						begin
+							ClrScr;
+							reset(s);
+							mostrarRegistro(s);
+							close(s);
+							readln();
 							append(s);
 							close(s);
 						end
@@ -418,6 +434,11 @@ BEGIN
 							rewrite(s);
 							registrarHuesped(s, false);
 							close(s);
+							Clrscr;
+							reset(s);
+							mostrarRegistro(s);
+							close(s);
+							readln();
 						end;
 					end;
 					'2': begin
@@ -425,6 +446,11 @@ BEGIN
 						opcReservacion:= 'En Pareja';
 						if FileExists('ReservacionPareja.txt') then
 						begin
+							ClrScr;
+							reset(a);
+							mostrarRegistro(a);
+							close(a);
+							readln();
 							append(a);
 							close(a);
 						end
@@ -433,6 +459,11 @@ BEGIN
 							rewrite(a);
 							registrarHuesped(a, false);
 							close(a);
+							ClrScr;
+							reset(a);
+							mostrarRegistro(a);
+							close(a);
+							readln();
 						end;
 					end;
 					'3': begin
@@ -440,6 +471,11 @@ BEGIN
 						opcReservacion:= 'Grupo/Familia';
 						if FileExists('ReservacionGrupo_Familia.txt') then
 						begin
+							ClrScr;
+							reset(g);
+							mostrarRegistro(g);
+							close(g);
+							readln();
 							append(g);
 							close(g);
 						end
@@ -448,6 +484,11 @@ BEGIN
 							rewrite(g);
 							registrarHuesped(g, true);
 							close(g);
+							ClrScr;
+							reset(g);
+							mostrarRegistro(g);
+							close(g);
+							readln();
 						end;
 					end
 					else
