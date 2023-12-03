@@ -468,6 +468,78 @@ begin
 	close(arch);
 end;
 
+procedure modificarHuesped(var arch: text; indiceCliente: integer; esGrupo: Boolean);
+var
+	huesped: datosHuesped;
+	i: integer;
+	lineas: array of string;
+	linea: string;
+begin
+	reset(arch);
+	i := 0;
+	while not eof(arch) do
+	begin
+		setLength(lineas, i + 1);
+		readln(arch, lineas[i]);
+		i := i + 1;
+	end;
+	close(arch);
+	if (indiceCliente >= 0) and (indiceCliente < length(lineas)) then
+	begin
+		pedirDatos(huesped, esGrupo);
+		linea := 'Nombre: ' + huesped.nombre + ', Cedula: ' + huesped.cedula + ', Email: ' + huesped.email + ', Telefono: ' + huesped.telefono + ', Dias de estadia: ' + IntToStr(huesped.diasEstadia);
+		lineas[indiceCliente] := linea;
+		rewrite(arch);
+		for i := 0 to length(lineas) - 1 do
+		begin
+			writeln(arch, lineas[i]);
+		end;
+		close(arch);
+	end
+	else
+	begin
+		writeln('Índice de cliente no válido.');
+	end;
+end;
+
+procedure seleccionarHuesped(var arch: text; esGrupo: boolean);
+var
+	nombreHuesped: string;
+	linea: string;
+	indiceCliente, i: integer;
+	encontrado: boolean;
+begin
+	repeat
+		write('Ingrese el nombre del cliente que desea modificar: ');
+		readln(nombreHuesped);
+	until validarNombre(nombreHuesped);
+	reset(arch);
+	i := 0;
+	encontrado := false;
+	while not eof(arch) do
+	begin
+		readln(arch, linea);
+		if Pos(nombreHuesped, linea) > 0 then
+		begin
+			writeln('Cliente encontrado: ', linea);
+			encontrado := true;
+			indiceCliente := i;
+			break;
+		end;
+		i := i + 1;
+	end;
+	close(arch);
+	if encontrado then
+	begin
+		modificarHuesped(arch, indiceCliente, esGrupo);
+		writeln('Los datos del cliente han sido modificados.');
+	end
+	else
+	begin
+		writeln('Cliente no encontrado.');
+	end;
+end;
+
 BEGIN
 	while True do
 	begin
