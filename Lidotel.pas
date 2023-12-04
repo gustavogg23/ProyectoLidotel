@@ -55,36 +55,24 @@ begin
 		writeln('cama Lidotel Royal King, con reloj despertador, TV 32'' HD Plasma con cable, ');
 		writeln('banyo con ducha, cafetera electrica, nevera ejecutiva, caja electronica de seguridad y ');
 		writeln('secador de cabello, armario adicional amplio, una habitacion separada con 2 camas full, banyo con ducha.');
-		writeln('-Incluye: Desayuno Buffet en el Restaurant Le Nouveau, acceso inalambrico a Internet (WIFI), ');
-		writeln('Business Center, uso de nuestra exclusiva piscina, acceso a nuestro gimnasio, sillas y ');
-		writeln('toldos en la playa, kit de vanidades y ninyos de 0 a 2 anyos sin recargos.');
 		writeln;
 		writeln('2. SENCILLA - 60$ por noche');
 		writeln('Amplia y confortable habitacion decorada con un estilo vanguardista, cama Lidotel ');
 		writeln('Royal King con sabanas de algodon egipcio, soporte para iPod con reloj despertador, ');
 		writeln('TV 32'' HD Plasma con cable, banyo con ducha, cafetera electrica, nevera ejecutiva, caja ');
 		writeln('electronica de seguridad y secador de cabello.');
-		writeln('-Incluye: Desayuno Buffet en Restaurant Le Nouveau, acceso inalambrico a Internet (WIFI), ');
-		writeln('acceso a las instalaciones del Business Center, uso de nuestra exclusiva piscina, ');
-		writeln('acceso a nuestro moderno gimnasio y Kit de vanidades. Ninyos de 0 a 2 anyos sin recargos.');
 		writeln;
 		writeln('3. DOBLE - 120$ por noche');
 		writeln('Amplia y confortable habitacion decorada con un estilo vanguardista, Dos Camas ');
 		writeln('Lidotel Full con sabanas de algodon egipcio, soporte para iPod con reloj despertador, ');
 		writeln('TV 32'' HD Plasma con cable, banyo con ducha, cafetera electrica, nevera ejecutiva, caja ');
 		writeln('electronica de seguridad secador de cabello.');
-		writeln('-Incluye: Desayuno Buffet en el Restaurant Le Nouveau, acceso inalambrico a Internet (WIFI), ');
-		writeln('acceso a las instalaciones del Business Center, uso de nuestra exclusiva piscina, ');
-		writeln('acceso a nuestro moderno gimnasio y Kit de vanidades. Ninyos de 0 a 2 anyos sin recargos.');
 		writeln;
 		writeln('4. SUITE - 300$ por noche');
 		writeln('Calida y confortable habitacióon decorada con un estilo vanguardista, 100% libre de ');
 		writeln('humo, Cama Lidotel Royal King, con reloj despertador, TV 32'' HD Plasma con cable, 2 ');
 		writeln('banyos con ducha, cafetera electrica, nevera ejecutiva, caja electronica de seguridad y ');
 		writeln('secador de cabello, armario adicional amplio y area separada con 2 sofa-cama individuales.');
-		writeln('-Incluye: Desayuno Buffet en el Restaurant Le Nouveau, acceso inalambrico a Internet (WIFI), ');
-		writeln('Business Center, uso de nuestra exclusiva piscina, acceso a nuestro gimnasio, sillas y ');
-		writeln('toldos en la playa, kit de vanidades y ninyos de 0 a 2 anyos sin recargos.');
 		readln(opcHabitacion);
 		case opcHabitacion of 
 		'1': begin
@@ -122,27 +110,18 @@ begin
 		writeln('cama Lidotel Royal King, con reloj despertador, TV 32'' HD Plasma con cable, ');
 		writeln('banyo con ducha, cafetera electrica, nevera ejecutiva, caja electronica de seguridad y ');
 		writeln('secador de cabello, armario adicional amplio, una habitacion separada con 2 camas full, banyo con ducha.');
-		writeln('-Incluye: Desayuno Buffet en el Restaurant Le Nouveau, acceso inalambrico a Internet (WIFI), ');
-		writeln('Business Center, uso de nuestra exclusiva piscina, acceso a nuestro gimnasio, sillas y ');
-		writeln('toldos en la playa, kit de vanidades y ninyos de 0 a 2 anyos sin recargos.');
 		writeln;
 		writeln('2. DOBLE - 120$ por noche');
 		writeln('Amplia y confortable habitacion decorada con un estilo vanguardista, Dos Camas ');
 		writeln('Lidotel Full con sabanas de algodon egipcio, soporte para iPod con reloj despertador, ');
 		writeln('TV 32'' HD Plasma con cable, banyo con ducha, cafetera electrica, nevera ejecutiva, caja ');
 		writeln('electronica de seguridad secador de cabello.');
-		writeln('-Incluye: Desayuno Buffet en el Restaurant Le Nouveau, acceso inalambrico a Internet (WIFI), ');
-		writeln('acceso a las instalaciones del Business Center, uso de nuestra exclusiva piscina, ');
-		writeln('acceso a nuestro moderno gimnasio y Kit de vanidades. Ninyos de 0 a 2 anyos sin recargos.');
 		writeln;
 		writeln('3. SUITE - 300$ por noche');
 		writeln('Calida y confortable habitacióon decorada con un estilo vanguardista, 100% libre de ');
 		writeln('humo, Cama Lidotel Royal King, con reloj despertador, TV 32'' HD Plasma con cable, 2 ');
 		writeln('banyos con ducha, cafetera electrica, nevera ejecutiva, caja electronica de seguridad y ');
 		writeln('secador de cabello, armario adicional amplio y area separada con 2 sofa-cama individuales.');
-		writeln('-Incluye: Desayuno Buffet en el Restaurant Le Nouveau, acceso inalambrico a Internet (WIFI), ');
-		writeln('Business Center, uso de nuestra exclusiva piscina, acceso a nuestro gimnasio, sillas y ');
-		writeln('toldos en la playa, kit de vanidades y ninyos de 0 a 2 anyos sin recargos.');
 		readln(opcHabitacion);
 		case opcHabitacion of 
 		'1': begin
