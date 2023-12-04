@@ -401,17 +401,29 @@ end;
 
 procedure mostrarCliente(var arch: text; indiceCliente: integer);
 var
-	linea: string;
+	nombre, cedula, email, telefono, diasEstadia, tipoHabitacion, precioNoche: string;
 	i: integer;
 begin
 	reset(arch);
 	i:= 0;
 	while not eof(arch) do
 	begin
-		readln(arch, linea);
+		readln(arch, nombre);
+		readln(arch, cedula);
+		readln(arch, email);
+		readln(arch, telefono);
+		readln(arch, diasEstadia);
+		readln(arch, tipoHabitacion);
+		readln(arch, precioNoche);
 		if (i = indiceCliente) then
 		begin
-			writeln(linea);
+			writeln(nombre);
+			writeln(cedula);
+			writeln(email);
+			writeln(telefono);
+			writeln(diasEstadia);
+			writeln(tipoHabitacion);
+			writeln(precioNoche);
 			break;
 		end;
 		i:= i + 1;
@@ -465,7 +477,7 @@ procedure registroHuespedExtra(var archivo: text; esGrupo: boolean);
 begin
 	precioTotal:= 0;
 	ClrScr;
-	writeln('Ingrese los datos del adulto: ');
+	writeln('Ingrese los datos del huesped: ');
 	pedirDatos(huespedes[0], esGrupo);
 	if esGrupo then
 		elegirHabitacionGrupo
@@ -585,22 +597,27 @@ begin
 			'1': begin
 				ClrScr;
 				mostrarClienteAnterior(archivo);
+				readln();
 			end;
 			'2': begin
 				ClrScr;
 				mostrarSiguienteCliente(archivo);
+				readln();
 			end;
 			'3': begin
 				ClrScr;
 				buscarHuesped(archivo);
+				readln();
 			end;
 			'4': begin
 				ClrScr;
 				agregarHuesped(archivo, esGrupo);
+				readln();
 			end;
 			'5': begin
 				ClrScr;
 				seleccionarHuesped(archivo, esGrupo);
+				readln();
 			end;
 			'0': begin
 				ClrScr;
@@ -641,7 +658,7 @@ BEGIN
 						opcReservacion:= 'Individual';
 						if FileExists('ReservacionIndividual.txt') then
 						begin
-							writeln('Ya existe una reservación de este tipo');
+							writeln('Ya existe una reservacion de este tipo');
 							writeln('Presione enter para ver el registro...');
 							readln();
 							ClrScr;
@@ -656,7 +673,7 @@ BEGIN
 							registrarHuesped(s, false);
 							close(s);
 							Clrscr;
-							writeln('Su reservación se ha guardado');
+							writeln('Su reservacion se ha guardado');
 							writeln('Presione enter para continuar...');
 							readln();
 							ClrScr;
@@ -672,7 +689,7 @@ BEGIN
 						opcReservacion:= 'En Pareja';
 						if FileExists('ReservacionPareja.txt') then
 						begin
-							writeln('Ya existe una reservación de este tipo');
+							writeln('Ya existe una reservacion de este tipo');
 							writeln('Presione enter para ver el registro...');
 							readln();
 							ClrScr;
@@ -687,7 +704,7 @@ BEGIN
 							registrarHuesped(a, false);
 							close(a);
 							ClrScr;
-							writeln('Su reservación se ha guardado');
+							writeln('Su reservacion se ha guardado');
 							writeln('Presione enter para continuar...');
 							readln();
 							ClrScr;
@@ -703,7 +720,7 @@ BEGIN
 						opcReservacion:= 'Grupo/Familia';
 						if FileExists('ReservacionGrupo_Familia.txt') then
 						begin
-							writeln('Ya existe una reservación de este tipo');
+							writeln('Ya existe una reservacion de este tipo');
 							writeln('Presione enter para ver el registro...');
 							readln();
 							ClrScr;
@@ -718,7 +735,7 @@ BEGIN
 							registrarHuesped(g, true);
 							close(g);
 							ClrScr;
-							writeln('Su reservación se ha guardado');
+							writeln('Su reservacion se ha guardado');
 							writeln('Presione enter para continuar...');
 							readln();
 							ClrScr;
