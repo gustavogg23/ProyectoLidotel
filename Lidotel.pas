@@ -408,7 +408,6 @@ begin
 	i:= 0;
 	while not eof(arch) do
 	begin
-		readln(arch);
 		readln(arch, nombre);
 		readln(arch, cedula);
 		readln(arch, email);
