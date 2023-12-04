@@ -427,7 +427,7 @@ begin
 		mostrarCliente(arch, clienteActual);
 	end
 	else
-		writeln('No hay cliente anterior');
+		writeln('No hay huesped anterior');
 end;
 
 procedure mostrarSiguienteCliente(var arch: text);
@@ -461,10 +461,35 @@ begin
 		writeln('Huesped no encontrado');
 end;
 
+procedure registroHuespedExtra(var archivo: text; esGrupo: boolean);
+begin
+	precioTotal:= 0;
+	ClrScr;
+	writeln('Ingrese los datos del adulto: ');
+	pedirDatos(huespedes[0], esGrupo);
+	if esGrupo then
+		elegirHabitacionGrupo
+	else
+		elegirHabitacion;
+		
+	writeln(archivo, 'Nombre: ', huespedes[0].nombre);
+	writeln(archivo, 'Cedula: ', huespedes[0].cedula);
+	writeln(archivo, 'Email: ', huespedes[0].email);
+	writeln(archivo, 'Telefono: ', huespedes[0].telefono);
+	writeln(archivo, 'Dias de estadia: ', huespedes[0].diasEstadia);
+	huespedes[i].tipoHabitacion:= habitacion;
+	writeln(archivo, 'Tipo de Habitacion: ', huespedes[0].tipoHabitacion);
+	huespedes[i].precioNoche:= noche;
+	writeln(archivo, 'Precio por noche: ', huespedes[0].precioNoche:0:2, '$');
+	writeln(archivo);
+	precioTotal:= noche * huespedes[0].diasEstadia;
+	writeln(archivo, 'Total a pagar: ', precioTotal:0:2, '$');	
+end;
+
 procedure agregarHuesped(var arch: text; esGrupo: boolean);
 begin
 	append(arch);
-	registrarHuesped(arch, esGrupo);
+	registroHuespedExtra(arch, esGrupo);
 	close(arch);
 end;
 
@@ -498,7 +523,7 @@ begin
 	end
 	else
 	begin
-		writeln('Índice de cliente no válido.');
+		writeln('Indice de cliente no valido.');
 	end;
 end;
 
@@ -540,6 +565,60 @@ begin
 	end;
 end;
 
+procedure menuOpcExtras(var archivo: text; esGrupo: boolean);
+var
+	opc: char;
+begin
+	while True do
+	begin
+		repeat
+			ClrScr;
+			writeln('Que operacion desea realizar:');
+			writeln('1. Mostrar huesped anterior');
+			writeln('2. Mostrar huesped siguiente');
+			writeln('3. Buscar huesped');
+			writeln('4. Agregar huesped');
+			writeln('5. Modificar datos de huesped');
+			writeln('0. Volver al menu principal');
+			readln(opc);
+			case opc of
+			'1': begin
+				ClrScr;
+				mostrarClienteAnterior(archivo);
+			end;
+			'2': begin
+				ClrScr;
+				mostrarSiguienteCliente(archivo);
+			end;
+			'3': begin
+				ClrScr;
+				buscarHuesped(archivo);
+			end;
+			'4': begin
+				ClrScr;
+				agregarHuesped(archivo, esGrupo);
+			end;
+			'5': begin
+				ClrScr;
+				seleccionarHuesped(archivo, esGrupo);
+			end;
+			'0': begin
+				ClrScr;
+				writeln('Volviendo al menu principal');
+				writeln('Por favor presione enter');
+				readln();
+				exit;
+			end
+			else
+			begin
+				writeln('Opcion Invalida');
+				readln();
+			end;
+			end;
+		until (opc = '1') or (opc = '2') or (opc = '3') or (opc = '4') or (opc = '5') or (opc = '0');
+	end;
+end;
+
 BEGIN
 	while True do
 	begin
@@ -547,7 +626,7 @@ BEGIN
 			ClrScr;
 			writeln('Bienvenido al Hotel Lidotel Boutique Margarita');
 			writeln;
-			writeln('Por favor ingrese la opcion que desee');
+			writeln('Por favor ingrese la opcion que desee:');
 			writeln('1. Nuevo Cliente');
 			writeln('0. Salir');
 			readln(opcion);
@@ -586,6 +665,7 @@ BEGIN
 							close(s);
 							readln();
 						end;
+						menuOpcExtras(s, false);
 					end;
 					'2': begin
 						assign(a, 'ReservacionPareja.txt');
@@ -616,6 +696,7 @@ BEGIN
 							close(a);
 							readln();
 						end;
+						menuOpcExtras(a, false);
 					end;
 					'3': begin
 						assign(g, 'ReservacionGrupo_Familia.txt');
@@ -646,6 +727,7 @@ BEGIN
 							close(g);
 							readln();
 						end;
+						menuOpcExtras(g, true);
 					end
 					else
 					begin
