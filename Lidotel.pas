@@ -2,14 +2,14 @@ program Lidotel; // Gustavo Gutiérrez y Juan García
 
 uses crt, sysutils;
 
-const
+const  // Constantes con los precios de las habitaciones
 	FAMROOM = 200;
 	SEN = 60;
 	DOB = 120;
 	SUT = 300;
 
 type
-	datosHuesped = record
+	datosHuesped = record  // Tipo de registro para los datos de los adultos
 		nombre: string[30];
 		cedula: string[11];
 		email: string[30];
@@ -19,7 +19,7 @@ type
 		precioNoche: real;
 	end;
 	
-	datosNinyo = record
+	datosNinyo = record  // Tipo de registro para los datos de niños
 		nombre: string[30];
 		edad: integer;
 		tipoHabitacion: string[15];
@@ -27,15 +27,15 @@ type
 	end;
 	
 var 
-	huespedes: array of datosHuesped;
+	huespedes: array of datosHuesped;  // Arreglos para almacenar datos de adultos y niños
 	ninyos: array of datosNinyo;
 	numAdultos, numNinyos, clienteActual: integer;
 	precioTotal, noche: real;
 	opcReservacion, habitacion, opcionEntrada, adultos, ninos, numDias, edadNinos: string;
 	opcHabitacion, opcion, eleccion: char;
-	s, a, g: text;
+	s, a, g: text;  // Variables para los diferentes archivos de texto
 
-procedure tipoReservacion;
+procedure tipoReservacion; // Procedimiento que muestra los tipos de reservaciones que se pueden realizar
 begin
 	ClrScr;
 	writeln('Por favor seleccione el tipo de reservacion que desea realizar');
@@ -45,7 +45,7 @@ begin
 	writeln('3. Reservacion en Grupo/Familia');
 end;
 
-procedure elegirHabitacion;
+procedure elegirHabitacion; // Procedimiento que muestra los tipos de habitaciones y su descripciones
 begin
 	repeat
 		ClrScr;
@@ -88,8 +88,8 @@ begin
 		readln(opcHabitacion);
 		case opcHabitacion of 
 		'1': begin
-			habitacion:= 'Family Room';
-			noche:= FAMROOM;
+			habitacion:= 'Family Room'; // Se asigan el tipo de habitación a la variable habitación
+			noche:= FAMROOM;  // Se asigna el precio de la habitación por noche de la habitación seleccionada a la variable noche
 		end;
 		'2': begin
 			habitacion:= 'Sencilla';
@@ -109,10 +109,10 @@ begin
 			readln();
 		end;
 		end;
-	until (opcHabitacion = '1') or (opcHabitacion = '2') or (opcHabitacion = '3') or (opcHabitacion = '4');
+	until (opcHabitacion = '1') or (opcHabitacion = '2') or (opcHabitacion = '3') or (opcHabitacion = '4'); // Se repite hasta que se elija una de las opciones permitidas
 end;
 
-procedure elegirHabitacionGrupo;
+procedure elegirHabitacionGrupo;  // En este procedimiento se muestran las habitaciones elegibles para las reservaciones en grupo/familia
 begin
 	repeat
 		ClrScr;
@@ -166,14 +166,14 @@ begin
 	until (opcHabitacion = '1') or (opcHabitacion = '2') or (opcHabitacion = '3');
 end;
 
-function validarNombre(var nom: string): boolean;
+function validarNombre(var nom: string): boolean; // Función para validar nombre
 var
 	contNom: integer;
 begin
-	validarNombre:= true;
-	for contNom:= 1 to length(nom) do
+	validarNombre:= true; // Establece la variable booleana en verdadero
+	for contNom:= 1 to length(nom) do // El bucle recorre cada letra de la entrada del usuario
 	begin
-		if not (nom[contNom] in ['A'..'Z', 'a'..'z', ' ']) then
+		if not (nom[contNom] in ['A'..'Z', 'a'..'z', ' ']) then // Si alguno de los caracteres no es una letra o un espacio la varibale booleana se le asigna el valor falso
 		begin
 			writeln('Entrada Invalida');
 			validarNombre:= false;
@@ -183,14 +183,14 @@ begin
 	end;
 end;
 
-function validarCedula(var id: string): boolean;
+function validarCedula(var id: string): boolean;  // Función para validar cédula del usuario
 var 
 	contCedula: integer;
 begin
 	validarCedula:= true;
 	for contCedula:= 1 to length(id) do
 	begin
-		if not (id[contCedula] in ['0'..'9', '.']) then
+		if not (id[contCedula] in ['0'..'9', '.']) then // Si algún carácter no es un número o un punto se muestra mensaje de error y la vriabel se establece en false
 		begin
 			writeln('Entrada invalida');
 			validarCedula:= false;
@@ -200,14 +200,14 @@ begin
 	end;
 end;
 
-function validarCorreo(var correo: string): boolean;
+function validarCorreo(var correo: string): boolean;  // Función para validar correo del usuario
 var
 	contEmail: integer;
 begin
 	validarCorreo:= true;
 	for contEmail:= 1 to length(correo) do
 	begin
-		if not (correo[contEmail] in ['A'..'Z', 'a'..'z', '0'..'9', '@', '.', '_']) then
+		if not (correo[contEmail] in ['A'..'Z', 'a'..'z', '0'..'9', '@', '.', '_']) then // Verifica cada carácter del correo y si alguno no es válido, se muestra mensaje de error
 		begin
 			writeln('Entrada Invalida');
 			validarCorreo:= false;
@@ -217,14 +217,14 @@ begin
 	end;
 end;
 
-function validarTelefono(var numTel: string): boolean;
+function validarTelefono(var numTel: string): boolean;  // Función para validar número de teléfono del usuario
 var
 	contTel: integer;
 begin
 	validarTelefono:= true;
 	for contTel:= 1 to length(numTel) do
 	begin
-		if not (numTel[contTel] in ['0'..'9', '-']) then
+		if not (numTel[contTel] in ['0'..'9', '-']) then  // Verifica que todos los carácteres de la entrada sean números o guión
 		begin
 			writeln('Entrada invalida');
 			validarTelefono:= false;
@@ -234,12 +234,12 @@ begin
 	end;
 end;
 
-function numeroValido(var num: integer; var ent: string): boolean;
+function numeroValido(var num: integer; var ent: string): boolean;  // Función para validar alguna entrada numérica del usuario
 var
 	error: integer;
 begin
-	Val(ent, num, error);
-	if (error <> 0) or (num < 0) then
+	Val(ent, num, error);  // Intenta convertir la entrada del usuario en un número
+	if (error <> 0) or (num <= 0) then // Si la entrada no es un número o es menor o igual a 0 se muestra mensaje de error
 	begin
 		writeln('Entrada Invalida');
 		numeroValido:= false;
@@ -247,14 +247,14 @@ begin
 	end
 	else
 	begin
-		numeroValido:= true;
+		numeroValido:= true; // Si el número es válido la variable se establece en true
 	end;
 end;
 
-procedure pedirDatos(var huesped: datosHuesped; esGrupo: boolean);
+procedure pedirDatos(var huesped: datosHuesped; esGrupo: boolean); // Procedimiento para pedir datos de un adulto
 begin
 	writeln;
-	repeat
+	repeat  // Se repite el campo hasta que se ingrese una entrada válida
 		write('Nombre: ');
 		readln(huesped.nombre);
 	until validarNombre(huesped.nombre);
@@ -276,7 +276,7 @@ begin
 	until numeroValido(huesped.diasEstadia, numDias);
 end; 
 
-procedure pedirDatosNinyos(var ninio: datosNinyo);
+procedure pedirDatosNinyos(var ninio: datosNinyo); // Procedmiento para pedir los datos de un niño
 begin
 	writeln;
 	repeat
@@ -284,19 +284,19 @@ begin
 		readln(ninio.nombre);
 	until validarNombre(ninio.nombre);
 	repeat
-		write('Edad: ');
+		write('Edad: '); // Pide la edad del niño hasta que se ingrese una edad válida
 		readln(edadNinos);
 	until numeroValido(ninio.edad, edadNinos);
 end;
 
-procedure siNinyos;
+procedure siNinyos;  // Procedimiento para verificar si hay niños en un grupo o familia
 var
 	i: integer;
 begin
 	repeat
 		writeln('Hay ninyos en su grupo/familia? (s/n)');
 		readln(opcionEntrada);
-		for i:= 1 to length(opcionEntrada) do
+		for i:= 1 to length(opcionEntrada) do  
 		begin
 			opcionEntrada[i]:= UpCase(opcionEntrada[i]); // Convierte la entrada en mayúsculas
 		end;
@@ -306,14 +306,14 @@ begin
 			readln();
 			Clrscr;
 		end;
-	until (opcionEntrada = 'S') or (opcionEntrada = 'N') or (opcionEntrada = 'SI') or (opcionEntrada = 'NO');
+	until (opcionEntrada = 'S') or (opcionEntrada = 'N') or (opcionEntrada = 'SI') or (opcionEntrada = 'NO'); // Se repite hasta que la entrada sea válida
 end;
 
-procedure registrarHuesped(var archivo: text; esGrupo: boolean);
+procedure registrarHuesped(var archivo: text; esGrupo: boolean);  // Procedimiento dónde se registran los datos de los huéspedes 
 var
 	i: integer;
 begin
-	if eleccion = '1' then
+	if eleccion = '1' then // Se establecen el número de niñoos y adultos de acuerdo al tipo de reservación elegida por el usuario
 	begin
 		numAdultos:= 1;
 		numNinyos:= 0;
@@ -327,88 +327,88 @@ begin
 	begin
 		repeat
 			ClrScr;
-			write('Ingrese el numero de adultos en el grupo/familia: ');
+			write('Ingrese el numero de adultos en el grupo/familia: ');  // Se piden el número de adultos en caso de reservación en grupo/familia
 			readln(adultos);
 		until numeroValido(numAdultos, adultos);
-		siNinyos;
+		siNinyos;  // Pregunta al usuario si hay niños en el grupo
 	end;
-	SetLength(huespedes, numAdultos);
+	SetLength(huespedes, numAdultos); // Establece el arreglo de datos de adulto de acuerdo al número ingresado por el usuario
 	for i:= 0 to numAdultos - 1 do
 	begin
 		ClrScr;
-		writeln('Ingrese los datos del adulto ', i + 1, ': ');
+		writeln('Ingrese los datos del adulto ', i + 1, ': ');  // Para cada adulto pide los datos 
 		pedirDatos(huespedes[i], esGrupo);
 	end;
 	
-	if esGrupo then
+	if esGrupo then  // Se muestran las opciones disponibles de tipo de habitación de acuerdo al tipo de reservación del usuario
 		elegirHabitacionGrupo
 	else
 		elegirHabitacion;
 	
-	precioTotal:= 0;
-	for i:= 0 to numAdultos - 1 do
+	precioTotal:= 0; // Se inicializa el precio total a pagar 
+	for i:= 0 to numAdultos - 1 do // Se escriben los datos de cada adulto en el archivo correspondiénte
 	begin
 		writeln(archivo, 'Nombre: ', huespedes[i].nombre);
 		writeln(archivo, 'Cedula: ', huespedes[i].cedula);
 		writeln(archivo, 'Email: ', huespedes[i].email);
 		writeln(archivo, 'Telefono: ', huespedes[i].telefono);
 		writeln(archivo, 'Dias de estadia: ', huespedes[i].diasEstadia);
-		huespedes[i].tipoHabitacion:= habitacion;
+		huespedes[i].tipoHabitacion:= habitacion; // Se asigna el tipo de habitación
 		writeln(archivo, 'Tipo de Habitacion: ', huespedes[i].tipoHabitacion);
-		huespedes[i].precioNoche:= noche;
+		huespedes[i].precioNoche:= noche; // Se asigna el precio por noche 
 		writeln(archivo, 'Precio por noche: ', huespedes[i].precioNoche:0:2, '$');
 		writeln(archivo);
 	end;
 	
-	precioTotal:= noche * huespedes[0].diasEstadia;
+	precioTotal:= noche * huespedes[0].diasEstadia; // Se calcula el precio total
 	
-	if (opcionEntrada = 'S') or (opcionEntrada = 'SI') then
+	if (opcionEntrada = 'S') or (opcionEntrada = 'SI') then // En caso de que haya niños en el grupo 
 	begin
 		repeat
 			ClrScr;
-			write('Ingrese el numero de ninyos: ');
+			write('Ingrese el numero de ninyos: '); // Se pide ingresar el número de niños en el grupo
 			readln(ninos);
 		until numeroValido(numNinyos, ninos);
 		SetLength(ninyos, numNinyos);
-		for i:= 0 to numNinyos - 1 do
+		for i:= 0 to numNinyos - 1 do // Se piden los datos de cada niño
 		begin
 			ClrScr;
 			writeln('Ingrese los datos del ninyo ', i + 1, ': ');
 			pedirDatosNinyos(ninyos[i]);
 			writeln(archivo, 'Nombre: ', ninyos[i].nombre);
 			writeln(archivo, 'Edad: ', ninyos[i].edad, ' anyos');
-			ninyos[i].tipoHabitacion:= habitacion;
+			ninyos[i].tipoHabitacion:= habitacion;  // Se establece el mismo tipo de habitación
 			writeln(archivo, 'Tipo de Habitacion: ', ninyos[i].tipoHabitacion);
 			ninyos[i].precioNoche:= noche;
 			writeln(archivo, 'Precio por noche: ', ninyos[i].precioNoche:0:2, '$');
 			writeln(archivo);
 		end;
 	end;
-	writeln(archivo, 'Total a pagar: ', precioTotal:0:2, '$');
+	writeln(archivo, 'Total a pagar: ', precioTotal:0:2, '$'); // Se muestra en el archivo el total a pagar
 	writeln(archivo);
 end;
 
-procedure mostrarRegistro(var arch: text);
+procedure mostrarRegistro(var arch: text); // Procedimiento para mostrar el resgistro guardado en un archivo
 var
-	linea: string;
+	linea: string; // variable para almacenar cada línea del archivo
 begin
-	while not eof(arch) do
+	while not eof(arch) do // MIentras no se llegue al final del archivo se lee cada línea y se imprime
 	begin
 		readln(arch, linea);
 		writeln(linea);
 	end;
 end;
 
-procedure mostrarCliente(var arch: text; indiceCliente: integer);
+procedure mostrarCliente(var arch: text; indiceCliente: integer); // Procedimiento para mostrar un huésped específico
 var
 	nombre, cedula, email, telefono, diasEstadia, tipoHabitacion, precioNoche: string;
 	i: integer;
 begin
-	reset(arch);
+	reset(arch); // Se abre el archivo para lectura
 	i:= 0;
 	while not eof(arch) do
 	begin
-		readln(arch, nombre);
+		readln(arch, nombre); // Se leen los datos del huésped en el archivo
 		readln(arch, cedula);
 		readln(arch, email);
 		readln(arch, telefono);
@@ -416,7 +416,7 @@ begin
 		readln(arch, tipoHabitacion);
 		readln(arch, precioNoche);
 		readln(arch);
-		if (i = indiceCliente) then
+		if (i = indiceCliente) then // Se imprimen los datos del cliente si el contador es igual al índice 
 		begin
 			writeln(nombre);
 			writeln(cedula);
@@ -427,41 +427,41 @@ begin
 			writeln(precioNoche);
 			break;
 		end;
-		i:= i + 1;
+		i:= i + 1; // Aumenta el contador
 	end;
-	close(arch);
+	close(arch); // Cierra el archivo
 end;
 
-procedure mostrarClienteAnterior(var arch: text);
+procedure mostrarClienteAnterior(var arch: text); // Procedimiento para mostrar el cliente anterior
 begin
-	if clienteActual > 0 then
+	if clienteActual > 0 then // Si el cliente actual no es el primero en el archivo
 	begin
-		clienteActual:= clienteActual - 1;
-		mostrarCliente(arch, clienteActual);
+		clienteActual:= clienteActual - 1; // Decremente el índice de cleinte actual
+		mostrarCliente(arch, clienteActual); // Muestra el cliente anterior
 	end
 	else
 		writeln('No hay huesped anterior');
 end;
 
-procedure mostrarSiguienteCliente(var arch: text);
+procedure mostrarSiguienteCliente(var arch: text); // Procedimiento para mostrar cliente siguiente
 begin
-	clienteActual:= clienteActual + 1;
-	mostrarCliente(arch, clienteActual);
+	clienteActual:= clienteActual + 1; // Incrementa el índice del clienta actual
+	mostrarCliente(arch, clienteActual); // Muestra el cliente siguiente
 end;
 
-procedure buscarHuesped(var arch: text);
+procedure buscarHuesped(var arch: text); // Procedimiento para buscar un huésped específico
 var
 	nombre, cedula, email, telefono, diasEstadia, tipoHabitacion, precioNoche: string;
 	nombreHuesped: string;
 	encontrado: boolean;
 begin
 	repeat
-		write('Ingrese el nombre del huesped que desea buscar: ');
+		write('Ingrese el nombre del huesped que desea buscar: '); // Se pide ingresar el nombre del huésped que se quier buscar
 		readln(nombreHuesped);
 	until validarNombre(nombreHuesped);
-	reset(arch);
+	reset(arch); // Se abre el archivo para lectura
 	encontrado:= false;
-	while not eof(arch) do
+	while not eof(arch) do // Se leen los datos del huésped mientras no se llegue al final del archivo
 	begin
 		readln(arch, nombre);
 		readln(arch, cedula);
@@ -471,7 +471,7 @@ begin
 		readln(arch, tipoHabitacion);
 		readln(arch, precioNoche);
 		readln(arch);
-		if Pos(nombreHuesped, nombre) > 0 then
+		if Pos(nombreHuesped, nombre) > 0 then // Si el nombre del huésped existe se imprimen sus datos
 		begin
 			ClrScr;
 			writeln(nombre);
@@ -485,24 +485,24 @@ begin
 		end;
 	end;
 	close(arch);
-	if not encontrado then
+	if not encontrado then // En caso de que no exista el huésped se imprime un mensaje 
 		writeln('Huesped no encontrado');
 end;
 
-procedure agregarHuesped(var arch: text; esGrupo: boolean);
+procedure agregarHuesped(var arch: text; esGrupo: boolean); // Procedimiento para agregar un nuevo huésped
 var
 	huesped: datosHuesped;
 begin
-	append(arch);
+	append(arch); // Se abre el archivo para agregar datos
 	ClrScr;
-	writeln('Ingrese los datos del huesped:');
+	writeln('Ingrese los datos del huesped:'); // Se piden los datos de acuerdo al tipo de reservación del archivo
 	pedirDatos(huesped, esGrupo);
 	if esGrupo then
 		elegirHabitacionGrupo
 	else
 		elegirHabitacion;
 	precioTotal:= 0;
-	writeln(arch, 'Nombre: ', huesped.nombre);
+	writeln(arch, 'Nombre: ', huesped.nombre); // Se escriben los datos del huésped en el archivo
 	writeln(arch, 'Cedula: ', huesped.cedula);
 	writeln(arch, 'Email: ', huesped.email);
 	writeln(arch, 'Telefono: ', huesped.telefono);
@@ -514,27 +514,27 @@ begin
 	precioTotal:= noche * huesped.diasEstadia;
 	writeln(arch);
 	writeln(arch, 'Total a pagar: ', precioTotal:0:2, '$');
-	close(arch);
+	close(arch); // Se cierra el archivo
 end;
 
-procedure modificarHuesped(var arch: text; indiceCliente: integer; esGrupo: Boolean);
+procedure modificarHuesped(var arch: text; indiceCliente: integer; esGrupo: Boolean); // Procedimiento para modificar datos de un huésped
 var
-	huesped: datosHuesped;
+	huesped: datosHuesped; // Variable para almacenar los datos de un huésped
 	i: integer;
-	lineas: array of string;
+	lineas: array of string; // Arreglo para las líneas del archivo
 begin
-	reset(arch);
+	reset(arch); // Se abre el archivo para lectura
 	i:= 0;
 	while not eof(arch) do
 	begin
-		setLength(lineas, i + 1);
-		readln(arch, lineas[i]);
+		setLength(lineas, i + 1); // Se ajusta el tamaño del arreglo de acuerdo al número de líneas
+		readln(arch, lineas[i]); // Se lee una línea del archivo y se incrementa el contador 
 		i:= i + 1;
 	end;
-	close(arch);
-	if (indiceCliente >= 0) and (indiceCliente < length(lineas)) then
+	close(arch); // Se cierra el archivo
+	if (indiceCliente >= 0) and (indiceCliente < length(lineas)) then // Verifica que el índice del huésped es válido
 	begin
-		pedirDatos(huesped, esGrupo);
+		pedirDatos(huesped, esGrupo); // Pide los datos del huésped para ser modificados 
 		if esGrupo then
 			elegirHabitacionGrupo
 		else
@@ -552,20 +552,21 @@ begin
 		lineas[indiceCliente + 6]:= 'Precio por noche: ' + FormatFloat('0.00', huesped.precioNoche);
 		precioTotal:= noche * huesped.diasEstadia;
 		lineas[indiceCliente + 7]:= 'Total a pagar: ' + FormatFloat('0.00', precioTotal);
-		rewrite(arch);
-		for i:= 0 to length(lineas) - 1 do
+		
+		rewrite(arch); // Se abre el archivo para escribir
+		for i:= 0 to length(lineas) - 1 do // Se recorre el arreglo de líneas del archivo
 		begin
-			writeln(arch, lineas[i]);
+			writeln(arch, lineas[i]); // Se escriben las líneas en el archivo
 		end;
 		close(arch);
 	end
 	else
 	begin
-		writeln('Indice de cliente no valido.');
+		writeln('Indice de cliente no valido.'); // Si el índice del cliente no es válido muestra un mensaje de error
 	end;
 end;
 
-procedure seleccionarHuesped(var arch: text; esGrupo: boolean);
+procedure seleccionarHuesped(var arch: text; esGrupo: boolean); // Procedimiento para elegir el huésped cuyos datos se quieren modificar
 var
 	nombreHuesped: string;
 	linea: string;
@@ -573,46 +574,46 @@ var
 	encontrado: boolean;
 begin
 	repeat
-		write('Ingrese el nombre del cliente que desea modificar: ');
+		write('Ingrese el nombre del cliente que desea modificar: '); // Se pide ingresar el nombre del huésped hasta que se ingrese una entrada válida
 		readln(nombreHuesped);
 	until validarNombre(nombreHuesped);
-	reset(arch);
+	reset(arch); // Se abre el archivo para lectura 
 	i:= 0;
 	encontrado:= false;
 	while not eof(arch) do
 	begin
 		readln(arch, linea);
-		if Pos(nombreHuesped, linea) > 0 then
+		if Pos(nombreHuesped, linea) > 0 then // Se lee la línea del arhivo y se verifica que está el nombre del huésped
 		begin
 			ClrScr;
-			writeln('Cliente encontrado: ', linea);
+			writeln('Cliente encontrado: ', linea); // Se imprime el nombre del cliente si se encuentra
 			encontrado:= true;
 			indiceCliente:= i;
 			break;
 		end;
 		i:= i + 1;
 	end;
-	close(arch);
-	if encontrado then
+	close(arch); // Se cierra el archivo
+	if encontrado then // Si se encontró el huésped se modifican sus datos
 	begin
 		modificarHuesped(arch, indiceCliente, esGrupo);
 		writeln('Los datos del cliente han sido modificados.');
 	end
 	else
 	begin
-		writeln('Cliente no encontrado.');
+		writeln('Cliente no encontrado.'); // En caso de que no se encuentre el huésped se muestra un mensaje indicándolo
 	end;
 end;
 
-procedure menuOpcExtras(var archivo: text; esGrupo: boolean);
+procedure menuOpcExtras(var archivo: text; esGrupo: boolean); // Procedimiento para mostrar al usuario las operaciones posibles luego de la reservación
 var
 	opc: char;
 begin
-	while True do
+	while True do 
 	begin
 		repeat
 			ClrScr;
-			writeln('Que operacion desea realizar:');
+			writeln('Que operacion desea realizar:'); // Se imprimen las operacions posibles
 			writeln('1. Mostrar huesped anterior');
 			writeln('2. Mostrar huesped siguiente');
 			writeln('3. Buscar huesped');
@@ -621,7 +622,7 @@ begin
 			writeln('0. Volver al menu principal');
 			readln(opc);
 			case opc of
-			'1': begin
+			'1': begin // Cada caso corresponde a una operación diferente
 				ClrScr;
 				mostrarClienteAnterior(archivo);
 				readln();
@@ -649,7 +650,7 @@ begin
 			'0': begin
 				ClrScr;
 				writeln('Volviendo al menu principal');
-				writeln('Por favor presione enter');
+				writeln('Por favor presione enter...');
 				readln();
 				exit;
 			end
@@ -664,11 +665,11 @@ begin
 end;
 
 BEGIN
-	while True do
+	while True do // El bucle se repite hasta que se decida salir del programa 
 	begin
 		repeat
 			ClrScr;
-			writeln('Bienvenido al Hotel Lidotel Boutique Margarita');
+			writeln('Bienvenido al Hotel Lidotel Boutique Margarita'); // Se imprimen las operaciones que se pueden realizar 
 			writeln;
 			writeln('Por favor ingrese la opcion que desee:');
 			writeln('1. Nuevo Cliente');
@@ -677,27 +678,27 @@ BEGIN
 			case opcion of
 			'1': begin
 				repeat
-					tipoReservacion;
+					tipoReservacion; // Se pide el tipo de reservación que el usuario desea realizar 
 					readln(eleccion);
 					case eleccion of 
 					'1': begin
-						assign(s, 'ReservacionIndividual.txt');
+						assign(s, 'ReservacionIndividual.txt'); // Se asigna el nombre del archivo al tipo de reservación que corresponda
 						opcReservacion:= 'Individual';
-						if FileExists('ReservacionIndividual.txt') then
+						if FileExists('ReservacionIndividual.txt') then // Se verifica si ya existe el tipo de archivo según el tipo de reservación 
 						begin
 							writeln('Ya existe una reservacion de este tipo');
 							writeln('Presione enter para ver el registro...');
 							readln();
 							ClrScr;
-							reset(s);
-							mostrarRegistro(s);
-							close(s);
+							reset(s); // Se abre el archivo para lectura 
+							mostrarRegistro(s); // En caso de que el archivo ya exista, se muestra el registro 
+							close(s); // Se cierra el archivo
 							readln();
 						end
 						else
 						begin
-							rewrite(s);
-							registrarHuesped(s, false);
+							rewrite(s); // En caso de que no exista el archivo, se abre para escritura
+							registrarHuesped(s, false); // Se registran los datos de los huéspedes en el archivo correspondiente 
 							close(s);
 							Clrscr;
 							writeln('Su reservacion se ha guardado');
@@ -705,11 +706,11 @@ BEGIN
 							readln();
 							ClrScr;
 							reset(s);
-							mostrarRegistro(s);
+							mostrarRegistro(s); // Se muestra el registro en el archivo 
 							close(s);
 							readln();
 						end;
-						menuOpcExtras(s, false);
+						menuOpcExtras(s, false); // Se mustra el menú de operaciones extras
 					end;
 					'2': begin
 						assign(a, 'ReservacionPareja.txt');
@@ -779,22 +780,22 @@ BEGIN
 						readln();
 					end;
 					end;
-				until (eleccion = '1') or (eleccion = '2') or (eleccion = '3');
+				until (eleccion = '1') or (eleccion = '2') or (eleccion = '3'); // Se repite hasta que se ingrese una opción válida
 			end;
 			'0': begin
 				ClrScr;
-				writeln('Gracias por reservar en el Hotel Lidotel');
+				writeln('Gracias por reservar en el Hotel Lidotel'); // Imprime un mensaje de despedida 
 				writeln('Por favor disfrute de su estadia');
 				readln();
 				exit;
 			end
 			else
 			begin
-				writeln('Opcion Invalida');
+				writeln('Opcion Invalida'); // En caso de que la opción ingresada sea inválida se muestra un mensaje de error 
 				readln();
 			end;
 			end;
-		until (opcion = '1') or (opcion = '0');
+		until (opcion = '1') or (opcion = '0'); // Se repite hasta que se ingrese una opción válida
 	end;
 END.
 
