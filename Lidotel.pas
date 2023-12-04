@@ -470,6 +470,7 @@ begin
 		readln(arch, diasEstadia);
 		readln(arch, tipoHabitacion);
 		readln(arch, precioNoche);
+		readln(arch);
 		if Pos(nombreHuesped, nombre) > 0 then
 		begin
 			ClrScr;
@@ -501,7 +502,6 @@ begin
 	else
 		elegirHabitacion;
 	precioTotal:= 0;
-	writeln(arch);
 	writeln(arch, 'Nombre: ', huesped.nombre);
 	writeln(arch, 'Cedula: ', huesped.cedula);
 	writeln(arch, 'Email: ', huesped.email);
@@ -514,7 +514,6 @@ begin
 	precioTotal:= noche * huesped.diasEstadia;
 	writeln(arch);
 	writeln(arch, 'Total a pagar: ', precioTotal:0:2, '$');
-	writeln(arch);
 	close(arch);
 end;
 
