@@ -29,7 +29,7 @@ type
 var 
 	huespedes: array of datosHuesped;
 	ninyos: array of datosNinyo;
-	i, j, numAdultos, numNinyos, clienteActual: integer;
+	numAdultos, numNinyos, clienteActual: integer;
 	precioTotal, noche: real;
 	opcReservacion, habitacion, opcionEntrada, adultos, ninos, numDias, edadNinos: string;
 	opcHabitacion, opcion, eleccion: char;
@@ -524,24 +524,38 @@ var
 	huesped: datosHuesped;
 	i: integer;
 	lineas: array of string;
-	linea: string;
 begin
 	reset(arch);
-	i := 0;
+	i:= 0;
 	while not eof(arch) do
 	begin
 		setLength(lineas, i + 1);
 		readln(arch, lineas[i]);
-		i := i + 1;
+		i:= i + 1;
 	end;
 	close(arch);
 	if (indiceCliente >= 0) and (indiceCliente < length(lineas)) then
 	begin
 		pedirDatos(huesped, esGrupo);
-		linea := 'Nombre: ' + huesped.nombre + ', Cedula: ' + huesped.cedula + ', Email: ' + huesped.email + ', Telefono: ' + huesped.telefono + ', Dias de estadia: ' + IntToStr(huesped.diasEstadia);
-		lineas[indiceCliente] := linea;
+		if esGrupo then
+			elegirHabitacionGrupo
+		else
+			elegirHabitacion;
+		
+		precioTotal:= 0;
+		lineas[indiceCliente]:= 'Nombre: ' + huesped.nombre;
+		lineas[indiceCliente + 1]:= 'Cedula: ' + huesped.cedula;
+		lineas[indiceCliente + 2]:= 'Email: ' + huesped.email;
+		lineas[indiceCliente + 3]:= 'Telefono: ' + huesped.telefono;
+		lineas[indiceCliente + 4]:= 'Dias de estadia: ' + IntToStr(huesped.diasEstadia);
+		huesped.tipoHabitacion:= habitacion;
+		lineas[indiceCliente + 5]:= 'Tipo de Habitacion: ' + huesped.tipoHabitacion;
+		huesped.precioNoche:= noche;
+		lineas[indiceCliente + 6]:= 'Precio por noche: ' + FormatFloat('0.00', huesped.precioNoche);
+		precioTotal:= noche * huesped.diasEstadia;
+		lineas[indiceCliente + 7]:= 'Total a pagar: ' + FormatFloat('0.00', precioTotal);
 		rewrite(arch);
-		for i := 0 to length(lineas) - 1 do
+		for i:= 0 to length(lineas) - 1 do
 		begin
 			writeln(arch, lineas[i]);
 		end;
@@ -565,19 +579,20 @@ begin
 		readln(nombreHuesped);
 	until validarNombre(nombreHuesped);
 	reset(arch);
-	i := 0;
-	encontrado := false;
+	i:= 0;
+	encontrado:= false;
 	while not eof(arch) do
 	begin
 		readln(arch, linea);
 		if Pos(nombreHuesped, linea) > 0 then
 		begin
+			ClrScr;
 			writeln('Cliente encontrado: ', linea);
-			encontrado := true;
-			indiceCliente := i;
+			encontrado:= true;
+			indiceCliente:= i;
 			break;
 		end;
-		i := i + 1;
+		i:= i + 1;
 	end;
 	close(arch);
 	if encontrado then
