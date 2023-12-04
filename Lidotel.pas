@@ -274,7 +274,6 @@ begin
 		write('Dias de estadia: ');
 		readln(numDias);
 	until numeroValido(huesped.diasEstadia, numDias);
-	write('Tipo de habitacion: ');
 end; 
 
 procedure pedirDatosNinyos(var ninio: datosNinyo);
@@ -386,6 +385,7 @@ begin
 		end;
 	end;
 	writeln(archivo, 'Total a pagar: ', precioTotal:0:2, '$');
+	writeln(archivo);
 end;
 
 procedure mostrarRegistro(var arch: text);
@@ -450,7 +450,8 @@ end;
 
 procedure buscarHuesped(var arch: text);
 var
-	linea, nombreHuesped: string;
+	nombre, cedula, email, telefono, diasEstadia, tipoHabitacion, precioNoche: string;
+	nombreHuesped: string;
 	encontrado: boolean;
 begin
 	repeat
@@ -461,10 +462,23 @@ begin
 	encontrado:= false;
 	while not eof(arch) do
 	begin
-		readln(arch, linea);
-		if Pos(nombreHuesped, linea) > 0 then
+		readln(arch, nombre);
+		readln(arch, cedula);
+		readln(arch, email);
+		readln(arch, telefono);
+		readln(arch, diasEstadia);
+		readln(arch, tipoHabitacion);
+		readln(arch, precioNoche);
+		if Pos(nombreHuesped, nombre) > 0 then
 		begin
-			writeln(linea);
+			ClrScr;
+			writeln(nombre);
+			writeln(cedula);
+			writeln(email);
+			writeln(telefono);
+			writeln(diasEstadia);
+			writeln(tipoHabitacion);
+			writeln(precioNoche);
 			encontrado:= true;
 		end;
 	end;
@@ -473,35 +487,28 @@ begin
 		writeln('Huesped no encontrado');
 end;
 
-procedure registroHuespedExtra(var archivo: text; esGrupo: boolean);
+procedure agregarHuesped(var arch: text; esGrupo: boolean);
+var
+	huesped: datosHuesped;
 begin
-	precioTotal:= 0;
+	append(arch);
 	ClrScr;
-	writeln('Ingrese los datos del huesped: ');
-	pedirDatos(huespedes[0], esGrupo);
+	writeln('Ingrese los datos del huesped:');
+	pedirDatos(huesped, esGrupo);
 	if esGrupo then
 		elegirHabitacionGrupo
 	else
 		elegirHabitacion;
-		
-	writeln(archivo, 'Nombre: ', huespedes[0].nombre);
-	writeln(archivo, 'Cedula: ', huespedes[0].cedula);
-	writeln(archivo, 'Email: ', huespedes[0].email);
-	writeln(archivo, 'Telefono: ', huespedes[0].telefono);
-	writeln(archivo, 'Dias de estadia: ', huespedes[0].diasEstadia);
-	huespedes[i].tipoHabitacion:= habitacion;
-	writeln(archivo, 'Tipo de Habitacion: ', huespedes[0].tipoHabitacion);
-	huespedes[i].precioNoche:= noche;
-	writeln(archivo, 'Precio por noche: ', huespedes[0].precioNoche:0:2, '$');
-	writeln(archivo);
-	precioTotal:= noche * huespedes[0].diasEstadia;
-	writeln(archivo, 'Total a pagar: ', precioTotal:0:2, '$');	
-end;
-
-procedure agregarHuesped(var arch: text; esGrupo: boolean);
-begin
-	append(arch);
-	registroHuespedExtra(arch, esGrupo);
+	writeln(arch, 'Nombre: ', huesped.nombre);
+	writeln(arch, 'Cedula: ', huesped.cedula);
+	writeln(arch, 'Email: ', huesped.email);
+	writeln(arch, 'Telefono: ', huesped.telefono);
+	writeln(arch, 'Dias de estadia: ', huesped.diasEstadia);
+	huesped.tipoHabitacion:= habitacion;
+	writeln(arch, 'Tipo de Habitacion: ', huesped.tipoHabitacion);
+	huesped.precioNoche:= noche;
+	writeln(arch, 'Precio por noche: ', huesped.precioNoche:0:2, '$');
+	writeln(arch);
 	close(arch);
 end;
 
