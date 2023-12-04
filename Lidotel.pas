@@ -408,6 +408,7 @@ begin
 	i:= 0;
 	while not eof(arch) do
 	begin
+		readln(arch);
 		readln(arch, nombre);
 		readln(arch, cedula);
 		readln(arch, email);
@@ -415,6 +416,7 @@ begin
 		readln(arch, diasEstadia);
 		readln(arch, tipoHabitacion);
 		readln(arch, precioNoche);
+		readln(arch);
 		if (i = indiceCliente) then
 		begin
 			writeln(nombre);
@@ -499,6 +501,8 @@ begin
 		elegirHabitacionGrupo
 	else
 		elegirHabitacion;
+	precioTotal:= 0;
+	writeln(arch);
 	writeln(arch, 'Nombre: ', huesped.nombre);
 	writeln(arch, 'Cedula: ', huesped.cedula);
 	writeln(arch, 'Email: ', huesped.email);
@@ -508,6 +512,9 @@ begin
 	writeln(arch, 'Tipo de Habitacion: ', huesped.tipoHabitacion);
 	huesped.precioNoche:= noche;
 	writeln(arch, 'Precio por noche: ', huesped.precioNoche:0:2, '$');
+	precioTotal:= noche * huesped.diasEstadia;
+	writeln(arch);
+	writeln(arch, 'Total a pagar: ', precioTotal:0:2, '$');
 	writeln(arch);
 	close(arch);
 end;
